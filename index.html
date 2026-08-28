@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vida na Terra — Preservação e Biodiversidade</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/inicio.css">
+    <script src="script.js"></script>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-leaf"></i> Eco<span>Terra</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Início</a></li>
+                <li><a href="#ecossistemas">Ecossistemas</a></li>
+                <li><a href="#biodiversidade">Biodiversidade</a></li>
+                <li><a href="#impacto">Conservação</a></li>
+                <li><a href="#contato" class="btn-nav">Apoiar Projeto</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Descubra a Vida na Terra</h1>
+            <p>Explore os santuários naturais, a rica biodiversidade e a importância da preservação dos nossos biomas.</p>
+            
+            <!-- SEARCH BAR ESTILO TRAVELY -->
+            <div class="search-box">
+                <div class="search-item">
+                    <i class="fa-solid fa-earth-americas"></i>
+                    <select id="habitat-filter">
+                        <option value="">Escolha um Bioma</option>
+                        <option value="floresta">Florestas Tropicais</option>
+                        <option value="oceano">Oceanos & Mares</option>
+                        <option value="deserto">Desertos & Estepes</option>
+                        <option value="polar">Regiões Polares</option>
+                    </select>
+                </div>
+                <div class="search-item">
+                    <i class="fa-solid fa-paw"></i>
+                    <select id="fauna-filter">
+                        <option value="">Grupo Animal</option>
+                        <option value="mamiferos">Mamíferos</option>
+                        <option value="aves">Aves</option>
+                        <option value="reptil">Répteis e Anfíbios</option>
+                        <option value="marinho">Vida Marinha</option>
+                    </select>
+                </div>
+                <button class="btn-search" onclick="filtrar()">Explorar</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CARDS DE ECOSSISTEMAS / DESTINOS NATURAIS -->
+    <section id="ecossistemas">
+        <div class="section-header">
+            <span>Santuários do Planeta</span>
+            <h2>Principais Ecossistemas</h2>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Card 1 -->
+            <div class="destination-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=800&auto=format&fit=crop" alt="Floresta Tropical">
+                    <span class="card-badge">Alta Biodiversidade</span>
+                </div>
+                <div class="card-body">
+                    <h3>Florestas Tropicais</h3>
+                    <p>O coração verde do planeta. Abrigam mais da metade de todas as espécies de plantas e animais terrestres.</p>
+                    <div class="card-meta">
+                        <span><i class="fa-solid fa-tree"></i> Cobertura: 6% do Globo</span>
+                        <span><i class="fa-solid fa-cloud-rain"></i> Clima Umido</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="destination-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=800&auto=format&fit=crop" alt="Recifes de Coral">
+                    <span class="card-badge">Vida Subaquática</span>
+                </div>
+                <div class="card-body">
+                    <h3>Recifes de Coral</h3>
+                    <p>Conhecidos como as florestas tropicais do mar, sustentam cerca de 25% de toda a vida marinha.</p>
+                    <div class="card-meta">
+                        <span><i class="fa-solid fa-water"></i> Oceanos Globais</span>
+                        <span><i class="fa-solid fa-fish"></i> 4.000+ Espécies</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="destination-card">
+                <div class="card-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" alt="Montanhas e Vales">
+                    <span class="card-badge">Habitats Extremos</span>
+                </div>
+                <div class="card-body">
+                    <h3>Sistemas Montanhosos</h3>
+                    <p>Torres de biodiversidade que abrigam espécies altamente especializadas e reservatórios de água doce.</p>
+                    <div class="card-meta">
+                        <span><i class="fa-solid fa-mountain"></i> Grandes Altitudes</span>
+                        <span><i class="fa-solid fa-snowflake"></i> Clima Frio</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CARACTERÍSTICAS E SERVIÇOS (FEATURE BOXES) -->
+    <div class="features-section">
+        <div class="section-header">
+            <span>Como Funciona a Vida</span>
+            <h2>Pilares do Nosso Ecossistema</h2>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-sun"></i></div>
+                <h3>Energia Solar</h3>
+                <p>A base de toda a vida na Terra através da fotossíntese realizada por plantas e fitoplânctons.</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-recycle"></i></div>
+                <h3>Ciclos Nutricionais</h3>
+                <p>Decompositores garantem que nada seja desperdiçado, reciclando a matéria orgânica no solo.</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon"><i class="fa-solid fa-hand-holding-droplet"></i></div>
+                <h3>Regulação Climática</h3>
+                <p>Os oceanos e grandes florestas controlam a temperatura global e as correntes de ar.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATS / NÚMEROS DA TERRA -->
+    <section>
+        <div class="stats-section">
+            <div class="stat-item">
+                <h3>8.7M</h3>
+                <p>Espécies Estimadas</p>
+            </div>
+            <div class="stat-item">
+                <h3>71%</h3>
+                <p>Superfície em Água</p>
+            </div>
+            <div class="stat-item">
+                <h3>3.8B</h3>
+                <p>Anos de Evolução</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>EcoTerra</h4>
+                <p>Inspirado na exploração, proteção e documentação da vida no planeta Terra.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navegação</h4>
+                <ul>
+                    <li><a href="#">Sobre Nós</a></li>
+                    <li><a href="#">Biomas Globais</a></li>
+                    <li><a href="#">Galeria de Fauna</a></li>
+                    <li><a href="#">Projetos de Conservação</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contato</h4>
+                <ul>
+                    <li><i class="fa-solid fa-envelope"></i> contato@ecoterra.org</li>
+                    <li><i class="fa-solid fa-globe"></i> Preservação Mundial</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 EcoTerra — Template estilo Travel/Agência aplicado à Natureza.</p>
+        </div>
+    </footer>
+</body>
+</html>
