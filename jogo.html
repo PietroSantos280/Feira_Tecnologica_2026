@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reflorescer — Fase 1</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/ui.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">✦</div>
+        <div>
+          <h1>Reflorescer</h1>
+          <span>Um mundo pode voltar a respirar.</span>
+        </div>
+      </div>
+
+      <div class="stats" aria-label="Recursos do planeta">
+        <div class="stat"><span class="icon">◉</span><span class="label">Moedas</span><strong id="coinsValue">0</strong></div>
+        <div class="stat"><span class="icon">✦</span><span class="label">Sementes</span><strong id="seedsValue">1</strong></div>
+        <div class="stat"><span class="icon">◆</span><span class="label">Madeira</span><strong id="woodValue">0</strong></div>
+        <div class="stat bio-stat"><span class="icon">♧</span><span class="label">Biodiversidade</span><strong id="bioValue">0%</strong></div>
+        <div class="stat"><span class="icon">♧</span><span class="label">Árvores</span><strong id="treesValue">0</strong></div>
+      </div>
+
+      <div class="top-actions">
+        <button class="icon-button" id="saveButton" title="Salvar">💾</button>
+        <button class="icon-button" id="exportButton" title="Exportar save">⇩</button>
+        <label class="icon-button file-button" title="Importar save">⇧<input id="importInput" type="file" accept=".json,application/json"></label>
+        <button class="icon-button danger" id="resetButton" title="Resetar mundo">↻</button>
+      </div>
+    </header>
+
+    <main class="game-layout">
+      <aside class="panel left-panel">
+        <div class="panel-title">
+          <span>Ferramentas</span>
+          <small>FASE 1</small>
+        </div>
+
+        <div class="tool-list">
+          <button class="tool active" data-tool="plant"><span>🌱</span><div><b>Plantar</b><small>Plante uma semente</small></div></button>
+          <button class="tool" data-tool="inspect"><span>🔎</span><div><b>Analisar</b><small>Ver o estado do solo</small></div></button>
+          <button class="tool" data-tool="remove"><span>✋</span><div><b>Remover</b><small>Retirar uma árvore</small></div></button>
+        </div>
+
+        <div class="side-section">
+          <div class="section-heading">Progresso</div>
+          <div class="planet-level">
+            <div class="level-line"><span>Planeta</span><strong id="planetLevelText">Nível 1</strong></div>
+            <div class="progress"><i id="planetProgress"></i></div>
+            <p id="planetStage">Terra devastada</p>
+          </div>
+        </div>
+
+        <div class="side-section mission-card">
+          <div class="section-heading">Próximo objetivo</div>
+          <div class="mission-icon">🌱</div>
+          <strong id="missionTitle">O primeiro broto</strong>
+          <p id="missionDescription">Faça nascer a primeira árvore.</p>
+          <div class="progress"><i id="missionProgress"></i></div>
+          <small id="missionCounter">0 / 1</small>
+        </div>
+      </aside>
+
+      <section class="world-wrap">
+        <div class="world-toolbar">
+          <div class="world-status">
+            <span class="status-dot"></span>
+            <span id="worldMessage">O planeta espera pela primeira semente.</span>
+          </div>
+          <div class="season-pill">☀️ Verão · Dia <span id="dayValue">1</span></div>
+        </div>
+
+        <div class="canvas-shell">
+          <canvas id="worldCanvas" width="1152" height="648" aria-label="Mapa do planeta"></canvas>
+          <div class="canvas-hint" id="canvasHint">
+            <span>🌱</span> Selecione <b>Plantar</b> e clique em um tile morto.
+          </div>
+          <div class="toast-stack" id="toastStack"></div>
+        </div>
+      </section>
+
+      <aside class="panel right-panel">
+        <div class="panel-title">
+          <span>Natureza</span>
+          <small>RESTAURAÇÃO</small>
+        </div>
+
+        <section class="world-card">
+          <div class="card-top">
+            <div>
+              <small>Estado global</small>
+              <h2 id="worldCondition">Devastado</h2>
+            </div>
+            <div class="condition-orb" id="conditionOrb">·</div>
+          </div>
+          <div class="mini-metrics">
+            <div><span>Solo saudável</span><strong id="soilMetric">4%</strong></div>
+            <div><span>Cobertura vegetal</span><strong id="vegetationMetric">0%</strong></div>
+          </div>
+        </section>
+
+        <section class="shop-section">
+          <div class="section-heading">Loja de sementes</div>
+          <div id="shopList"></div>
+        </section>
+
+        <section class="selection-card" id="selectionCard">
+          <div class="section-heading">Tile selecionado</div>
+          <div class="empty-selection" id="emptySelection">
+            <span>⌖</span>
+            <p>Clique em um tile para analisar o terreno.</p>
+          </div>
+          <div id="selectionDetails" class="hidden"></div>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="footer">
+      <span>Reflorescer · Fase 1 — protótipo jogável</span>
+      <span>Salvamento local automático · <span id="saveStatus">salvo</span></span>
+    </footer>
+  </div>
+
+  <script src="js/climate.js"></script>
+  <script src="js/tree.js"></script>
+  <script src="js/world.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/economy.js"></script>
+  <script src="js/shop.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/missions.js"></script>
+  <script src="js/achievements.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/animals.js"></script>
+  <script src="js/research.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
