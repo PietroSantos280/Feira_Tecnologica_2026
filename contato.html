@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato</title>
+    <link rel="shortcut icon" href="img/favicon.png">
+    <link href="bootstrap-5.3.8-dist/css/bootstrap.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/surprisedmonkey" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/barlow" rel="stylesheet">
+    <link rel="stylesheet" href="css/inicio.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand fw-bold">Vida Terrestre</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+                        <li class="nav-item"><a class="nav-link" href="biomas.html">Biomas</a></li>
+                        <li class="nav-item"><a class="nav-link" href=".html">...</a></li>
+                        <li class="nav-item"><a class="nav-link" href="dados.html">Dados</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="contato.html">Contato</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="banner-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center text-white">
+                    <h1 class="display-3 fw-bold mb-4">Entre em Contato</h1>
+                    <p class="subtitulo fs-4">Estamos aqui para ajudar. Envie sua mensagem ou dúvida.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="contact-card">
+                        <h2>Envie sua Mensagem</h2>
+                        <form class="formulario-contato" action="https://formsubmit.co/arturmiguel9890@gmail.com"
+                            method="post">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Nome Completo *</label>
+                                <input type="text" class="form-control" id="name" name="name" required
+                                    placeholder="Digite seu nome">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">E-mail *</label>
+                                <input type="email" class="form-control" id="email" name="email" required
+                                    placeholder="seu@email.com">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Telefone</label>
+                                <input type="tel" class="form-control" id="phone" name="phone"
+                                    placeholder="(00) 00000-0000">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Assunto *</label>
+                                <select class="form-select" id="subject" name="subject" required>
+                                    <option value="">Selecione um assunto</option>
+                                    <option value="duvida">Dúvida sobre vícios</option>
+                                    <option value="ajuda">Preciso de ajuda</option>
+                                    <option value="informacao">Informações sobre o projeto</option>
+                                    <option value="sugestao">Sugestão</option>
+                                    <option value="outro">Outro</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Mensagem *</label>
+                                <textarea class="form-control" id="message" name="message" rows="6" required
+                                    placeholder="Escreva sua mensagem aqui..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-submit">Enviar Mensagem</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-5">
+                    <div class="info-card">
+                        <h3>Como Fazer a Sua Parte</h3>
+                        <div class="info-item">
+                            <strong>Plante Árvores Nativas</strong>
+                            <p>Participe de iniciativas de arborização urbana e restauração de mata ciliar.</p>
+                        </div>
+                        <div class="info-item">
+                            <strong>Consumo Consciente</strong>
+                            <p>Opte por produtos com certificação florestal sustentável (como o selo FSC).</p>
+                        </div>
+                        <div class="info-item">
+                            <strong>Denuncie Crimes Ambientais</strong>
+                            <p>Ajude a combater o desmatamento ilegal e o tráfico de animais silvestres via canais
+                                oficiais de proteção.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-1">&copy; 2025 Projeto Vício na Adolescência. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.js"></script>
+</body>
+
+</html>

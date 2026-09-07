@@ -3,193 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vida na Terra — Preservação e Biodiversidade</title>
-    <!-- Google Fonts & Font Awesome Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Vício na Adolescência - Projeto Educacional</title>
+    <link rel="shortcut icon" href="img/favicon.png">
+    <link href="bootstrap-5.3.8-dist/css/bootstrap.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/surprisedmonkey" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/barlow" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="css/inicio.css">
-    <script src="script.js"></script>
 </head>
 <body>
-
-    <!-- NAVBAR -->
     <header>
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <i class="fa-solid fa-leaf"></i> Eco<span>Terra</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#home">Início</a></li>
-                <li><a href="#ecossistemas">Ecossistemas</a></li>
-                <li><a href="#biodiversidade">Biodiversidade</a></li>
-                <li><a href="#impacto">Conservação</a></li>
-                <li><a href="#contato" class="btn-nav">Apoiar Projeto</a></li>
-            </ul>
-        </div>
-    </header>
-
-    <!-- HERO SECTION -->
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1>Descubra a Vida na Terra</h1>
-            <p>Explore os santuários naturais, a rica biodiversidade e a importância da preservação dos nossos biomas.</p>
-            
-            <!-- SEARCH BAR ESTILO TRAVELY -->
-            <div class="search-box">
-                <div class="search-item">
-                    <i class="fa-solid fa-earth-americas"></i>
-                    <select id="habitat-filter">
-                        <option value="">Escolha um Bioma</option>
-                        <option value="floresta">Florestas Tropicais</option>
-                        <option value="oceano">Oceanos & Mares</option>
-                        <option value="deserto">Desertos & Estepes</option>
-                        <option value="polar">Regiões Polares</option>
-                    </select>
-                </div>
-                <div class="search-item">
-                    <i class="fa-solid fa-paw"></i>
-                    <select id="fauna-filter">
-                        <option value="">Grupo Animal</option>
-                        <option value="mamiferos">Mamíferos</option>
-                        <option value="aves">Aves</option>
-                        <option value="reptil">Répteis e Anfíbios</option>
-                        <option value="marinho">Vida Marinha</option>
-                    </select>
-                </div>
-                <button class="btn-search" onclick="filtrar()">Explorar</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- CARDS DE ECOSSISTEMAS / DESTINOS NATURAIS -->
-    <section id="ecossistemas">
-        <div class="section-header">
-            <span>Santuários do Planeta</span>
-            <h2>Principais Ecossistemas</h2>
-        </div>
-
-        <div class="cards-grid">
-            <!-- Card 1 -->
-            <div class="destination-card">
-                <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?q=80&w=800&auto=format&fit=crop" alt="Floresta Tropical">
-                    <span class="card-badge">Alta Biodiversidade</span>
-                </div>
-                <div class="card-body">
-                    <h3>Florestas Tropicais</h3>
-                    <p>O coração verde do planeta. Abrigam mais da metade de todas as espécies de plantas e animais terrestres.</p>
-                    <div class="card-meta">
-                        <span><i class="fa-solid fa-tree"></i> Cobertura: 6% do Globo</span>
-                        <span><i class="fa-solid fa-cloud-rain"></i> Clima Umido</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="destination-card">
-                <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=800&auto=format&fit=crop" alt="Recifes de Coral">
-                    <span class="card-badge">Vida Subaquática</span>
-                </div>
-                <div class="card-body">
-                    <h3>Recifes de Coral</h3>
-                    <p>Conhecidos como as florestas tropicais do mar, sustentam cerca de 25% de toda a vida marinha.</p>
-                    <div class="card-meta">
-                        <span><i class="fa-solid fa-water"></i> Oceanos Globais</span>
-                        <span><i class="fa-solid fa-fish"></i> 4.000+ Espécies</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="destination-card">
-                <div class="card-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=800&auto=format&fit=crop" alt="Montanhas e Vales">
-                    <span class="card-badge">Habitats Extremos</span>
-                </div>
-                <div class="card-body">
-                    <h3>Sistemas Montanhosos</h3>
-                    <p>Torres de biodiversidade que abrigam espécies altamente especializadas e reservatórios de água doce.</p>
-                    <div class="card-meta">
-                        <span><i class="fa-solid fa-mountain"></i> Grandes Altitudes</span>
-                        <span><i class="fa-solid fa-snowflake"></i> Clima Frio</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CARACTERÍSTICAS E SERVIÇOS (FEATURE BOXES) -->
-    <div class="features-section">
-        <div class="section-header">
-            <span>Como Funciona a Vida</span>
-            <h2>Pilares do Nosso Ecossistema</h2>
-        </div>
-
-        <div class="features-grid">
-            <div class="feature-box">
-                <div class="feature-icon"><i class="fa-solid fa-sun"></i></div>
-                <h3>Energia Solar</h3>
-                <p>A base de toda a vida na Terra através da fotossíntese realizada por plantas e fitoplânctons.</p>
-            </div>
-            <div class="feature-box">
-                <div class="feature-icon"><i class="fa-solid fa-recycle"></i></div>
-                <h3>Ciclos Nutricionais</h3>
-                <p>Decompositores garantem que nada seja desperdiçado, reciclando a matéria orgânica no solo.</p>
-            </div>
-            <div class="feature-box">
-                <div class="feature-icon"><i class="fa-solid fa-hand-holding-droplet"></i></div>
-                <h3>Regulação Climática</h3>
-                <p>Os oceanos e grandes florestas controlam a temperatura global e as correntes de ar.</p>
-            </div>
-        </div>
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#inicio">VIDA TERRESTRE</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#inicio">Início</a></li>
+          <li class="nav-item"><a class="nav-link" href="biomas.html">Biomas</a></li>
+          <li class="nav-item"><a class="nav-link" href=".html">...</a></li>
+          <li class="nav-item"><a class="nav-link" href="dados.html">Dados</a></li>
+          <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
+        </ul>
+      </div>
     </div>
-
-    <!-- STATS / NÚMEROS DA TERRA -->
-    <section>
-        <div class="stats-section">
-            <div class="stat-item">
-                <h3>8.7M</h3>
-                <p>Espécies Estimadas</p>
-            </div>
-            <div class="stat-item">
-                <h3>71%</h3>
-                <p>Superfície em Água</p>
-            </div>
-            <div class="stat-item">
-                <h3>3.8B</h3>
-                <p>Anos de Evolução</p>
+  </nav>
+    </header>
+    <section id="inicio" class="banner-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center text-white">
+                    <h1 class="display-3 fw-bold mb-4">ODS 15: Vida Terrestre</h1>
+                    <p class="subtitulo fs-4">Um projeto educacional sobre a proteção, recuperação e uso sustentável dos ecossistemas</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-col">
-                <h4>EcoTerra</h4>
-                <p>Inspirado na exploração, proteção e documentação da vida no planeta Terra.</p>
+    <section id="sobre" class="py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="text-center fw-bold mb-4">Sobre o ODS 15</h2>
+                </div>
             </div>
-            <div class="footer-col">
-                <h4>Navegação</h4>
-                <ul>
-                    <li><a href="#">Sobre Nós</a></li>
-                    <li><a href="#">Biomas Globais</a></li>
-                    <li><a href="#">Galeria de Fauna</a></li>
-                    <li><a href="#">Projetos de Conservação</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Contato</h4>
-                <ul>
-                    <li><i class="fa-solid fa-envelope"></i> contato@ecoterra.org</li>
-                    <li><i class="fa-solid fa-globe"></i> Preservação Mundial</li>
-                </ul>
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="card border-0 shadow">
+                        <div class="card-body p-5">
+                            <p class="lead text-center mb-5">
+                                O Objetivo de Desenvolvimento Sustentável 15 estabelecido pela ONU foca em proteger, restaurar e promover o uso sustentável dos ecossistemas terrestres. Isso significa gerir as florestas de forma responsável, combater a desertificação, reverter a degradação da terra e, fundamentalmente, deter a perda de biodiversidade que ameaça inúmeras espécies.
+                            </p>
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="text-center">
+                                        <div class="mb-3 fs-1">💡</div>
+                                        <h5 class="fw-semibold mb-3">Conscientização</h5>
+                                        <p class="text-muted">Informar sobre a perda de habitats e a extinção de espécies, mostrando como nossas ações diárias impactam diretamente o meio ambiente e a natureza.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-center">
+                                        <div class="mb-3 fs-1">🛡️</div>
+                                        <h5 class="fw-semibold mb-3">Preservação</h5>
+                                        <p class="text-muted">Divulgar estratégias para proteger florestas, evitar a degradação do solo e manter a rica biodiversidade do nosso planeta salva e equilibrada.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-center">
+                                        <div class="mb-3 fs-1">🌍</div>
+                                        <h5 class="fw-semibold mb-3">Ação Conjunta</h5>
+                                        <p class="text-muted">A conservação exige o envolvimento de todos. O apoio a práticas sustentáveis e políticas públicas ambientais é fundamental para o sucesso destas metas.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="copyright">
-            <p>&copy; 2026 EcoTerra — Template estilo Travel/Agência aplicado à Natureza.</p>
+    </section>
+
+    <section id="livro" class="py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="text-center fw-bold mb-4">Recomendação de Leitura</h2>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-lg-4 mb-4 mb-lg-0 text-center">
+                    <!-- Substitua a imagem física na sua pasta pela capa do novo livro -->
+                    <img src="img/capa-livro.jpg" class="img-fluid rounded shadow" alt="Capa do Livro">
+                </div>
+                <div class="col-lg-8">
+                    <h3 class="fw-semibold mb-4">A Vida Secreta das Árvores</h3>
+                    <p class="mb-3">
+                        O livro "A Vida Secreta das Árvores", escrito por Peter Wohlleben, aborda o fascinante ecossistema florestal, explorando como a natureza se organiza de forma cooperativa. Com uma linguagem acessível, a obra oferece conhecimentos valiosos sobre biodiversidade, promovendo a conscientização sobre a urgência de proteger nossas florestas.
+                    </p>
+                    <p class="mb-3">
+                        A obra tem como foco mostrar que as árvores não são apenas recursos estáticos, mas seres que se comunicam, nutrem seus semelhantes doentes e formam redes complexas no solo. Ao entender essa dinâmica impressionante, passamos a valorizar a verdadeira importância do reflorestamento e do cuidado ambiental.
+                    </p>
+                    <p class="mb-3">
+                        
+                    </p>
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="fw-semibold mb-3">Informações do Livro</h5>
+                            <ul class="list-unstyled mb-0">
+                                <li class="mb-2"><strong>Autor: </strong>Peter Wohlleben</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="participantes" class="py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12">
+                    <h2 class="text-center fw-bold mb-4">Participantes do Grupo</h2>
+                </div>
+            </div>
+
+            <div class="row justify-content-center g-4">
+                <div class="col-lg-3 col-md-4">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body text-center p-4">
+                            <img src="img/int5.jpg" class="img-fluid rounded-3 mb-3" alt="Participante">
+                            <h5 class="fw-semibold mb-2">Pietro Andrade</h5>
+                            <p class="text-muted small mb-3">Desenvolvedor</p>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-white btn-social mx-1" href="https://github.com/apolo-ms" aria-label="Perfil do GitHub">
+                                <i class="fab fa-github"></i></a>
+                                <a class="btn btn-white btn-social mx-1" href="https://www.instagram.com/apolo_.ms/" aria-label="Perfil do Instagram">
+                                <i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body text-center p-4">
+                            <img src="img/int3.jpg" class="img-fluid rounded-3 mb-3" alt="Participante">
+                            <h5 class="fw-semibold mb-2">Artur Miguel</h5>
+                            <p class="text-muted small mb-3">Desenvolvedor</p>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-white btn-social mx-1" href="https://github.com/arturl1910" aria-label="Perfil do GitHub">
+                                <i class="fab fa-github"></i></a>
+                                <a class="btn btn-white btn-social mx-1" href="https://www.instagram.com/arturl1910" aria-label="Perfil do Instagram">
+                                <i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body text-center p-4">
+                            <img src="img/int2.jpg" class="img-fluid rounded-3 mb-3" alt="Participante">
+                            <h5 class="fw-semibold mb-2">Pietro Rodrigues</h5>
+                            <p class="text-muted small mb-3">Desenvolvedor</p>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-white btn-social mx-1" href="https://github.com/Bernardo751" aria-label="Perfil do GitHub">
+                                <i class="fab fa-github"></i></a>
+                                <a class="btn btn-white btn-social mx-1" href="https://www.instagram.com/antunes7___/" aria-label="Perfil do Instagram">
+                                <i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center g-4 mt-4">
+                <div class="col-lg-3 col-md-4">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body text-center p-4">
+                            <img src="img/int1.jpg" class="img-fluid rounded-3 mb-3" alt="Participante">
+                            <h5 class="fw-semibold mb-2">Henrique Batista</h5>
+                            <p class="text-muted small mb-3">Desenvolvedor</p>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-white btn-social mx-1" href="https://github.com/henriqueabatista" aria-label="Perfil do GitHub">
+                                <i class="fab fa-github"></i></a>
+                                <a class="btn btn-white btn-social mx-1" href="https://www.instagram.com/_batista.15" aria-label="Perfil do Instagram">
+                                <i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-4">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body text-center p-4">
+                            <img src="img/int4.jpg" class="img-fluid rounded-3 mb-3" alt="Participante">
+                            <h5 class="fw-semibold mb-2">Kauã Fernandes</h5>
+                            <p class="text-muted small mb-3">Desenvolvedor</p>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a class="btn btn-white btn-social mx-1" href="https://github.com/kauafernandesTec" aria-label="Perfil do GitHub">
+                                <i class="fab fa-github"></i></a>
+                                <a class="btn btn-white btn-social mx-1" href="https://www.instagram.com/fern4desz_" aria-label="Perfil do Instagram">
+                                <i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-1">&copy; 2025 Projeto Vício na Adolescência. Todos os direitos reservados.</p>
+                </div>
+            </div>
         </div>
     </footer>
+
+    <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.js"></script>
 </body>
 </html>
