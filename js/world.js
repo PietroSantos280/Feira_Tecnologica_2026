@@ -13,7 +13,9 @@ class Tile {
     this.humidity = 7 + Math.random() * 7;
     this.vegetation = 0;
     this.tree = null;
+    this.animal = null;
     this.water = 0;
+    this.inPlanet = true;
     this.temperature = 28 + Math.random() * 5;
     this.hover = false;
   }
@@ -42,7 +44,9 @@ class Tile {
       humidity: this.humidity,
       vegetation: this.vegetation,
       tree: this.tree ? this.tree.serialize() : null,
+      animal: this.animal,
       water: this.water,
+      inPlanet: this.inPlanet,
       temperature: this.temperature
     };
   }
@@ -55,6 +59,8 @@ class Tile {
     tile.water = data.water ?? 0;
     tile.temperature = data.temperature ?? 30;
     tile.tree = data.tree ? Tree.deserialize(data.tree) : null;
+    tile.animal = data.animal || null;
+    tile.inPlanet = data.inPlanet !== false;
     return tile;
   }
 }
@@ -69,6 +75,14 @@ class World {
     this.generate();
   }
 
+  isInsidePlanet(x, y) {
+    const cx = (this.cols - 1) / 2;
+    const cy = (this.rows - 1) / 2;
+    const rx = this.cols * 0.47;
+    const ry = this.rows * 0.48;
+    return ((x - cx) ** 2) / (rx ** 2) + ((y - cy) ** 2) / (ry ** 2) <= 1;
+  }
+
   generate() {
     this.tiles.length = 0;
     for (let y = 0; y < this.rows; y++) {
@@ -77,7 +91,9 @@ class World {
         let type = "wasteland";
         const edge = x < 3 || y < 2 || x >= this.cols - 3 || y >= this.rows - 2;
         if (edge && Math.random() < .42) type = "dry_soil";
-        row.push(new Tile(x, y, type));
+        const tile = new Tile(x, y, type);
+        tile.inPlanet = this.isInsidePlanet(x, y);
+        row.push(tile);
       }
       this.tiles.push(row);
     }
@@ -102,7 +118,7 @@ class World {
 
   plant(x, y, species = "common") {
     const tile = this.get(x, y);
-    if (!tile || tile.tree || tile.water > 0.8) return false;
+    if (!tile || !tile.inPlanet || tile.tree || tile.animal || tile.water > 0.8) return false;
     tile.tree = new Tree(species);
     tile.vegetation = Math.max(tile.vegetation, 4);
     this.seeded = true;

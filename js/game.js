@@ -66,8 +66,44 @@ class Game {
     this.ui.selectTile(tile);
 
     const tool = this.player.selectedTool;
+    if (tool === "river") {
+      if (!tile.inPlanet) {
+        this.ui.showToast("Fora do planeta", "Escolha uma área dentro da esfera.");
+        return;
+      }
+      if (tile.water > 0.8) {
+        this.ui.showToast("Rio já criado", "Escolha outro tile para abrir um curso d'água.");
+        return;
+      }
+      if (!this.player.spendCoins(50)) {
+        this.ui.showToast("Moedas insuficientes", "Criar um rio custa 50 moedas.");
+        return;
+      }
+      tile.water = 1;
+      tile.humidity = Math.min(100, tile.humidity + 20);
+      this.ui.showToast("Rio criado", "A água começa a devolver vida ao terreno.");
+      this.ui.refresh();
+      this.save.save();
+      return;
+    }
+    if (tool === "animal") {
+      if (!this.player.selectedAnimal) {
+        this.ui.showToast("Escolha um animal", "Compre uma galinha, cavalo ou vaca na loja.");
+        return;
+      }
+      if (!this.animals.canPlace(tile)) {
+        this.ui.showToast("Local inválido", "Animais exigem 5 árvores e não podem ficar em rios.");
+        return;
+      }
+      this.animals.place(tile, this.player.selectedAnimal);
+      this.player.selectedAnimal = null;
+      this.ui.showToast("Animal adicionado", "O novo habitante agora faz parte do planeta.");
+      this.ui.refresh();
+      this.save.save();
+      return;
+    }
     if (tool === "plant") {
-      if (tile.tree) {
+      if (tile.tree || tile.water > 0.8 || !tile.inPlanet) {
         this.ui.showToast("Tile ocupado", "Escolha um espaço sem árvore.");
         return;
       }
@@ -76,7 +112,12 @@ class Game {
         return;
       }
       const species = this.player.selectedSpecies || "common";
+      if (this.player.coins < 5) {
+        this.ui.showToast("Moedas insuficientes", "Cada plantio custa 5 moedas.");
+        return;
+      }
       if (this.world.plant(tile.x, tile.y, species)) {
+        this.player.spendCoins(5);
         this.player.seeds -= 1;
         this.player.totalTreesPlanted += 1;
         this.audio.playPlant();

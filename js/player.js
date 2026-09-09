@@ -1,10 +1,11 @@
 class Player {
   constructor() {
-    this.coins = 0;
+    this.coins = 20;
     this.seeds = 1;
     this.wood = 0;
     this.selectedTool = "plant";
     this.selectedSpecies = "common";
+    this.selectedAnimal = null;
     this.totalTreesPlanted = 0;
   }
 
@@ -25,6 +26,7 @@ class Player {
       wood: this.wood,
       selectedTool: this.selectedTool,
       selectedSpecies: this.selectedSpecies,
+      selectedAnimal: this.selectedAnimal,
       totalTreesPlanted: this.totalTreesPlanted
     };
   }
@@ -35,6 +37,7 @@ class Player {
     this.wood = data.wood ?? 0;
     this.selectedTool = data.selectedTool || "plant";
     this.selectedSpecies = data.selectedSpecies || "common";
+    this.selectedAnimal = data.selectedAnimal || null;
     this.totalTreesPlanted = data.totalTreesPlanted ?? 0;
   }
 }

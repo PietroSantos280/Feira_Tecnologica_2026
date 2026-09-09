@@ -21,7 +21,9 @@ class SaveSystem {
       world: this.game.world.serialize(),
       climate: this.game.climate.serialize(),
       missions: this.game.missions.serialize(),
-      achievements: this.game.achievements.serialize()
+      achievements: this.game.achievements.serialize(),
+      animals: this.game.animals.serialize()
+
     };
   }
 
@@ -48,6 +50,7 @@ class SaveSystem {
       this.game.climate.deserialize(data.climate);
       this.game.missions.deserialize(data.missions);
       this.game.achievements.deserialize(data.achievements);
+      this.game.animals.deserialize(data.animals);
       return true;
     } catch (error) {
       console.error("Falha ao carregar save:", error);

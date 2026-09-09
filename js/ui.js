@@ -25,6 +25,18 @@ class UIManager {
 
   setupActions() {
     document.getElementById("saveButton").addEventListener("click", () => this.game.save.save(false));
+    document.getElementById("sellWoodButton")?.addEventListener("click", () => {
+      if (this.game.player.wood <= 0) {
+        this.showToast("Sem madeira", "Remova uma árvore para obter madeira.");
+        return;
+      }
+      const amount = this.game.player.wood;
+      this.game.player.wood = 0;
+      this.game.player.addCoins(amount * 5);
+      this.showToast("Madeira vendida", `+${amount * 5} moedas`);
+      this.refresh();
+      this.game.save.save();
+    });
     document.getElementById("exportButton").addEventListener("click", () => this.game.save.export());
     document.getElementById("resetButton").addEventListener("click", () => {
       if (confirm("Resetar o planeta? Todo o progresso local será apagado.")) this.game.save.reset();
@@ -43,7 +55,9 @@ class UIManager {
     const hints = {
       plant: "Selecione Plantar e clique em um tile morto.",
       inspect: "Clique em um tile para analisar o terreno.",
-      remove: "Clique em uma árvore para removê-la."
+      remove: "Clique em uma árvore para removê-la.",
+      river: "Clique em um tile seco para criar um rio por 50 moedas.",
+      animal: "Compre um animal e clique em uma área seca dentro do planeta."
     };
     document.getElementById("canvasHint").innerHTML = `<span>${this.game.player.selectedTool === "plant" ? "🌱" : this.game.player.selectedTool === "remove" ? "✋" : "🔎"}</span> ${hints[this.game.player.selectedTool]}`;
   }
@@ -138,6 +152,7 @@ class UIManager {
         <div class="detail"><span>Umidade</span><strong>${tile.humidity.toFixed(1)}%</strong></div>
         <div class="detail"><span>Vegetação</span><strong>${tile.vegetation.toFixed(1)}%</strong></div>
         <div class="detail"><span>Árvore</span><strong>${tree ? tree.data.name : "Nenhuma"}</strong></div>
+        <div class="detail"><span>Animal</span><strong>${tile.animal ? ({ chicken: "Galinhas", horse: "Cavalos", cow: "Vacas" }[tile.animal]) : "Nenhum"}</strong></div>
         <div class="detail"><span>Idade</span><strong>${tree ? `${Math.floor(tree.age)}%` : "—"}</strong></div>
         <div class="detail"><span>Estágio</span><strong>${tree ? tree.stage.name : "—"}</strong></div>
       </div>`;
@@ -159,6 +174,11 @@ class UIManager {
       for (let x = 0; x < world.cols; x++) {
         const tile = world.get(x, y);
         const px = x * sx, py = y * sy;
+        if (!tile.inPlanet) {
+          ctx.fillStyle = "#102b3a";
+          ctx.fillRect(px, py, sx + .5, sy + .5);
+          continue;
+        }
         const dryness = 1 - Math.min(1, tile.fertility / 100);
         const green = Math.min(1, tile.vegetation / 100 + (tile.tree ? .12 : 0));
         const r = Math.round(68 - green * 38 + dryness * 8);
@@ -213,6 +233,24 @@ class UIManager {
         const px = x * sx + sx / 2;
         const py = y * sy + sy / 2;
         this.drawTree(ctx, px, py, sx, sy, tree, time);
+      }
+    }
+
+    // Animais aparecem como marcadores legíveis sobre o planeta.
+    for (let y = 0; y < world.rows; y++) {
+      for (let x = 0; x < world.cols; x++) {
+        const tile = world.get(x, y);
+        if (!tile.animal || !tile.inPlanet) continue;
+        const labels = { chicken: "G", horse: "C", cow: "V" };
+        ctx.fillStyle = "#f6d27a";
+        ctx.beginPath();
+        ctx.arc(x * sx + sx / 2, y * sy + sy / 2, Math.min(sx, sy) * .22, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#24352d";
+        ctx.font = `bold ${Math.max(10, Math.min(sx, sy) * .42)}px sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(labels[tile.animal] || "A", x * sx + sx / 2, y * sy + sy / 2);
       }
     }
 
