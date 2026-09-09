@@ -14,11 +14,14 @@ body {
   color: #2d3748;
 }
 
-.fab {
-  font-size: 26px;
+p {
+  font-family: "Barlow", sans-serif;
+  padding-bottom: 10px;
 }
 
-/* Navbar */
+
+/* NAVBAR */
+
 .navbar {
   background: linear-gradient(135deg, #1e4d2b, #2e7d32);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -39,9 +42,9 @@ body {
   padding: 0.5rem 1rem;
 }
 
-p {
-  padding-bottom: 10px;
-  font-family: "Barlow", sans-serif;
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  color: #dcefdc;
 }
 
 .navbar-toggler {
@@ -49,16 +52,25 @@ p {
   background: transparent;
 }
 
-/* Banner Principal */
+
+/* BANNER */
+
 .banner-section {
-  background: linear-gradient(135deg, rgba(30, 77, 43, 0.8), rgba(46, 125, 50, 0.7)), url(../img/download.jpg) center / cover no-repeat;
+  background:
+      linear-gradient(
+          135deg,
+          rgba(30, 77, 43, 0.8),
+          rgba(46, 125, 50, 0.7)
+      ),
+      url("../img/amazonia.jpg") center / cover no-repeat;
+
   min-height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   color: white;
-  padding: 120px 20px 60px;
+  padding: 160px 20px 80px;
   margin-top: 80px;
 }
 
@@ -69,81 +81,14 @@ p {
   line-height: 1.2;
 }
 
-.banner-section .lead {
-  font-size: 1.5rem;
-  margin-top: 1rem;
-}
-
 .subtitulo {
   font-size: 1.25rem;
   color: #e2f1e1;
   line-height: 1.6;
 }
 
-/* Cards e Seções */
-.card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-radius: 12px;
-  border: #1e4d2b 3px;
-}
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.15);
-}
-
-.card-body h5 {
-    margin-top: 1rem;
-}
-
-.titulo-amazonia {
-    color: #198754 !important;
-}
-
-.titulo-cerrado {
-    color: #f0ad00 !important;
-}
-
-.titulo-mata {
-    color: #dc3545 !important;
-}
-
-.titulo-caatinga {
-    color: #a67c00 !important;
-}
-
-.titulo-pantanal {
-    color: #0d6efd !important;
-}
-
-.titulo-pampa {
-    color: #20a05a !important;
-}
-
-.badge-amazonia {
-    background-color: #198754;
-}
-
-.badge-cerrado {
-    background-color: #f0ad00;
-}
-
-.badge-mata
-{
-    background-color: #dc3545;
-}
-
-.badge-caatinga {
-    background-color: #a67c00;
-}
-
-.badge-pantanal {
-    background-color: #0d6efd;
-}
-
-.badge-pampa {
-    background-color: #20a05a;
-}
+/* SEÇÕES */
 
 section {
   position: relative;
@@ -155,89 +100,125 @@ section h2 {
   margin-bottom: 2rem;
 }
 
-section .lead {
-  font-size: 1.25rem;
-  color: #3b4a3e;
-  line-height: 1.6;
+.section-white {
+  background-color: #ffffff;
 }
 
-.card-body h3 {
-  color: #1e4d2b;
+.section-light {
+  background-color: #f4f6f0;
+}
+
+
+/* CARDS */
+
+.card {
+  border-radius: 12px;
+  border: none;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.card-body {
+  padding: 25px;
 }
 
 .card-body h5 {
-  color: #2e7d32;
   margin-top: 1rem;
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 1.5rem;
 }
 
-.card-body p,
-.card-body ul li {
+.card-body p {
   line-height: 1.7;
   color: #333;
 }
 
-.card-body a,
-section a {
-  color: #1e4d2b;
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.3s ease;
+
+/* TÍTULOS DOS BIOMAS */
+
+.titulo-amazonia {
+  color: #198754 !important;
 }
 
-.card-body a:hover,
-section a:hover {
-  color: #2e7d32;
-  text-decoration: underline;
+.titulo-cerrado {
+  color: #f0ad00 !important;
 }
 
-.btn-outline-dark:hover {
-  background-color: #1e4d2b;
-  border-color: #1e4d2b;
-  color: white;
+.titulo-mata {
+  color: #dc3545 !important;
 }
 
-.card-body img {
+.titulo-caatinga {
+  color: #a67c00 !important;
+}
+
+.titulo-pantanal {
+  color: #0d6efd !important;
+}
+
+.titulo-pampa {
+  color: #20a05a !important;
+}
+
+
+/* BADGES */
+
+.badge {
+  display: block;
   width: 100%;
-  height: 400px;
-  object-fit: cover;
-  object-position: center;
-}
-
-/* Rodapé */
-footer {
-  background: linear-gradient(135deg, #1e4d2b, #2e7d32);
-  color: white;
+  padding: 10px;
+  font-size: 0.9rem;
   text-align: center;
-  padding: 20px 0;
 }
 
-.display-4 {
-  font-size: 3.5rem;
-  font-weight: 700;
+.badge-amazonia {
+  background-color: #198754;
 }
 
-.card-img-top {
-  height: 250px;
-  object-fit: cover;
+.badge-cerrado {
+  background-color: #f0ad00;
 }
 
-.text-primary {
-  color: #1e4d2b !important;
+.badge-mata {
+  background-color: #dc3545;
 }
 
-.text-danger {
-  color: #dc3545;
+.badge-caatinga {
+  background-color: #a67c00;
 }
 
-.text-warning {
-  color: #ffc107;
+.badge-pantanal {
+  background-color: #0d6efd;
 }
 
-.text-success {
-  color: #2e7d32;
+.badge-pampa {
+  background-color: #20a05a;
 }
 
-/* Accordion */
+
+/* ACCORDION */
+
+.accordion-item {
+  border-radius: 12px !important;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 1px solid #dee2e6;
+}
+
 .accordion-button {
   font-size: 1.1rem;
   padding: 1.25rem 1.5rem;
@@ -254,52 +235,74 @@ footer {
 
 .accordion-button:focus {
   box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
-  border-color: #1e4d2b;
-}
-
-.accordion-button::after {
-  filter: brightness(0) saturate(100%) invert(23%) sepia(45%) saturate(1500%) hue-rotate(90deg);
-}
-
-.accordion-button:not(.collapsed)::after {
-  filter: brightness(0) invert(1);
-}
-
-.accordion-item {
-  border-radius: 12px !important;
-  overflow: hidden;
-  margin-bottom: 1rem;
 }
 
 .accordion-body {
   background-color: #ffffff;
+  color: #555;
+  line-height: 1.7;
 }
 
-/* Carrossel de Depoimentos */
-#depoimentosCarousel .carousel-inner {
+
+/* CARROSSEL */
+
+#biomasCarousel {
+  overflow: hidden;
   border-radius: 12px;
-  background: white;
+  background-color: white;
 }
 
-#depoimentosCarousel .carousel-control-prev,
-#depoimentosCarousel .carousel-control-next {
-  width: 5%;
+#biomasCarousel .carousel-inner {
+  border-radius: 12px;
+  background-color: white;
+}
+
+#biomasCarousel .carousel-item {
+  min-height: 430px;
+}
+
+#biomasCarousel .card {
+  box-shadow: none !important;
+}
+
+#biomasCarousel .card-body {
+  padding: 50px !important;
+}
+
+#biomasCarousel h4 {
+  color: #1e4d2b;
+  margin-top: 10px;
+}
+
+.carousel-img {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#biomasCarousel .carousel-control-prev,
+#biomasCarousel .carousel-control-next {
+  width: 8%;
   opacity: 0.8;
 }
 
-#depoimentosCarousel .carousel-control-prev:hover,
-#depoimentosCarousel .carousel-control-next:hover {
+#biomasCarousel .carousel-control-prev:hover,
+#biomasCarousel .carousel-control-next:hover {
   opacity: 1;
 }
 
-#depoimentosCarousel .carousel-control-prev-icon,
-#depoimentosCarousel .carousel-control-next-icon {
+#biomasCarousel .carousel-control-prev-icon,
+#biomasCarousel .carousel-control-next-icon {
   background-color: #1e4d2b;
   border-radius: 50%;
   padding: 20px;
 }
 
-#depoimentosCarousel .carousel-indicators button {
+#biomasCarousel .carousel-indicators button {
   background-color: #1e4d2b;
   width: 12px;
   height: 12px;
@@ -307,47 +310,50 @@ footer {
   margin: 0 5px;
 }
 
-#depoimentosCarousel .carousel-indicators button.active {
-  background-color: #2e7d32;
-}
 
-#depoimentosCarousel blockquote {
-  font-style: italic;
-  color: #1e4d2b;
-  position: relative;
-  padding: 0 2rem;
-}
+/* RODAPÉ */
 
-#depoimentosCarousel blockquote::before {
-  content: '"';
-  font-size: 4rem;
-  position: absolute;
-  left: -10px;
-  top: -20px;
-  color: #2e7d32;
-  opacity: 0.3;
-}
-
-.carousel-item {
-  transition: transform 0.6s ease-in-out;
-}
-
-/* Seções Específicas */
-.titulo-ajuda {
+footer {
+  background: linear-gradient(135deg, #1e4d2b, #2e7d32);
+  color: white;
   text-align: center;
-  font-size: 1.2em;
+  padding: 20px 0;
 }
 
-#orientadoras,
-#livro {
-  background-color: #f4f6f0;
+footer p {
+  margin-bottom: 5px;
+  padding-bottom: 0;
 }
 
-.margin-ajuda {
-  margin-bottom: 30px;
+footer small {
+  color: rgba(255, 255, 255, 0.7);
 }
 
-/* Página de Contato */
+
+/* LINKS */
+
+section a {
+  color: #1e4d2b;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+section a:hover {
+  color: #2e7d32;
+  text-decoration: underline;
+}
+
+/*AMEAÇAS*/
+.icone-ameaca {
+  width: 170px;
+  height: 170px;
+  object-fit: cover;
+  object-position: center 70%;
+  border-radius: 8px;
+}
+
+/* CONTATO */
+
 .contact-section {
   padding: 60px 0;
   background: linear-gradient(180deg, #e8ece1, #dce2d5);
@@ -381,7 +387,6 @@ footer {
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   padding: 12px;
-  transition: border-color 0.3s ease;
 }
 
 .formulario-contato .form-control:focus,
@@ -398,234 +403,186 @@ footer {
   border-radius: 8px;
   font-weight: 600;
   font-size: 1.1rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
 }
 
 .btn-submit:hover {
+  color: white;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(30, 77, 43, 0.3);
 }
 
-.info-item {
-  padding: 20px 0;
-  border-bottom: 1px solid #e0e0e0;
-}
 
-.info-item:last-child {
-  border-bottom: none;
-}
+/* DADOS */
 
-.info-item strong {
-  color: #1e4d2b;
-  font-size: 1.1rem;
-  display: block;
-  margin-bottom: 8px;
-}
+.dados-banner {
+  background:
+      linear-gradient(
+          135deg,
+          rgba(30, 77, 43, 0.8),
+          rgba(46, 125, 50, 0.7)
+      ),
+      url("../img/amazonia.jpg") center / cover no-repeat;
 
-.info-item p {
-  color: #555;
-  margin: 0;
-  padding-bottom: 0;
-}
-
-/* Planos de Fundo Alternados */
-.section-white {
-  background-color: #ffffff;
-}
-
-.section-white h2,
-.section-light h2 {
-  color: #1e4d2b;
-}
-
-.section-light {
-  background-color: #f8f9fa;
-}
-
-/* Estilos de Cards com Altura Igual */
-.card.h-100 {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.card.h-100 .card-body {
-  display: flex;
-  flex-direction: column;
-}
-
-.card.h-100 .card-body .card-text.flex-grow-1 {
-  flex-grow: 1;
-}
-
-.card.h-100 .card-body .mt-auto {
-  margin-top: auto;
-}
-
-.card.h-100 .card-title {
-  min-height: 60px;
+  min-height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 120px 20px 60px;
+  margin-top: 80px;
 }
 
-/* Links de Fontes e Alertas */
-.card-body small,
-.text-muted small a,
-.alert-info a {
-  color: #1e4d2b;
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.3s ease;
+.dados-banner h1 {
+  font-family: "Surprisedmonkey", sans-serif;
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: white;
 }
 
-.card-body small a:hover,
-.text-muted small a:hover,
-.alert-info a:hover {
-  color: #2e7d32;
-  text-decoration: underline;
-}
 
-/* Responsividade */
+/* RESPONSIVIDADE */
+
 @media (max-width: 991px) {
-  .navbar {
-    min-height: 70px;
-  }
 
-  .navbar-brand {
-    font-size: 1.1rem;
+  .navbar {
+      min-height: 70px;
   }
 
   .navbar-collapse {
-    background: linear-gradient(135deg, #1e4d2b, #2e7d32);
-    padding: 1rem;
-    margin-top: 0.5rem;
-    border-radius: 8px;
+      background: linear-gradient(135deg, #1e4d2b, #2e7d32);
+      padding: 1rem;
+      margin-top: 0.5rem;
+      border-radius: 8px;
   }
 
   .nav-link {
-    padding: 0.75rem 1rem;
-    border-radius: 4px;
-  }
-
-  .nav-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .contact-card,
-  .info-card {
-    padding: 30px;
-  }
-}
-
-@media (max-width: 768px) {
-  .banner-section {
-    min-height: 400px;
-    padding: 100px 20px 50px;
-    margin-top: 70px;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
   }
 
   .banner-section h1 {
-    font-size: 50px;
+      font-size: 60px;
   }
 
-  .banner-section .lead {
-    font-size: 1.2rem;
+  .dados-banner h1 {
+      font-size: 60px;
+  }
+}
+
+
+@media (max-width: 768px) {
+
+  .banner-section {
+      min-height: 400px;
+      padding: 100px 20px 50px;
+      margin-top: 70px;
   }
 
-  .navbar {
-    min-height: 65px;
+  .banner-section h1 {
+      font-size: 50px;
   }
 
-  .navbar-brand {
-    font-size: 1rem;
-  }
-
-  .display-4 {
-    font-size: 2.5rem;
+  .subtitulo {
+      font-size: 1.1rem;
   }
 
   .card-img-top {
-    height: 200px;
+      height: 220px;
   }
 
-  .contact-section {
-    padding: 40px 0;
+  .dados-banner {
+      min-height: 400px;
+      padding: 100px 20px 50px;
+      margin-top: 70px;
   }
 
-  .contact-card,
-  .info-card {
-    padding: 25px;
+  .dados-banner h1 {
+      font-size: 50px;
   }
 
-  .btn-submit {
-    padding: 10px 30px;
-    font-size: 1rem;
+  #biomasCarousel .card-body {
+      padding: 40px 30px !important;
   }
 
-  #depoimentosCarousel .card-body {
-    padding: 2rem !important;
-  }
-
-  #depoimentosCarousel blockquote p {
-    font-size: 1rem !important;
-  }
-
-  #depoimentosCarousel .carousel-control-prev,
-  #depoimentosCarousel .carousel-control-next {
-    width: 10%;
+  #biomasCarousel .carousel-item {
+      min-height: 450px;
   }
 }
+
 
 @media (max-width: 576px) {
-  .banner-section {
-    min-height: 350px;
-    padding: 90px 15px 40px;
-    margin-top: 65px;
-  }
-
-  .banner-section h1 {
-    font-size: 35px;
-  }
-
-  .banner-section .lead {
-    font-size: 1rem;
-  }
 
   .navbar {
-    min-height: 60px;
-    font-size: 16px;
+      min-height: 60px;
+      font-size: 16px;
   }
 
   .navbar-brand {
-    font-size: 0.9rem;
-  }
-
-  .navbar-toggler {
-    padding: 0.25rem 0.5rem;
-    font-size: 1.1rem;
-  }
-
-  .display-4 {
-    font-size: 2rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .navbar-brand {
-    font-size: 0.8rem;
+      font-size: 0.9rem;
   }
 
   .banner-section {
-    min-height: 300px;
-    padding: 80px 10px 30px;
+      min-height: 350px;
+      padding: 90px 15px 40px;
+      margin-top: 60px;
   }
 
   .banner-section h1 {
-    font-size: 28px;
+      font-size: 35px;
+  }
+
+  .subtitulo {
+      font-size: 1rem;
+  }
+
+  .card-img-top {
+      height: 200px;
+  }
+
+  .card-body {
+      padding: 20px;
+  }
+
+  .dados-banner {
+      min-height: 350px;
+      padding: 90px 15px 40px;
+      margin-top: 60px;
+  }
+
+  .dados-banner h1 {
+      font-size: 35px;
+  }
+
+  #biomasCarousel .card-body {
+      padding: 35px 25px !important;
+  }
+
+  #biomasCarousel .carousel-item {
+      min-height: 500px;
+  }
+
+  .carousel-img {
+      width: 110px;
+      height: 110px;
   }
 }
-nav {
-  color: linear-gradient135deg (rgba(30, 77, 43, 0.8) rgba(46, 125, 50, 0.7));
+
+
+@media (max-width: 400px) {
+
+  .banner-section h1 {
+      font-size: 28px;
+  }
+
+  .navbar-brand {
+      font-size: 0.8rem;
+  }
+
+  .dados-banner h1 {
+      font-size: 30px;
+  }
+
 }

@@ -1,196 +1,1072 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estatísticas Ambientais - EcoJovem</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.min.css">
-    <!-- Estilo Personalizado Compartilhado -->
+
+    <title>Dados - Vida Terrestre</title>
+
+    <link rel="shortcut icon" href="img/favicon.png">
+
+    <link href="bootstrap-5.3.8-dist/css/bootstrap.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.cdnfonts.com/css/barlow" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/surprisedmonkey" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <link rel="stylesheet" href="css/inicio.css">
 </head>
+
 <body>
 
-     <header>
-      <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="#inicio">VIDA TERRESTRE</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
-          <li class="nav-item"><a class="nav-link" href="biomas.html">Biomas</a></li>
-          <li class="nav-item"><a class="nav-link" href="ameacas.html">Ameaças</a></li>
-          <li class="nav-item"><a class="nav-link" href="#inicio">Dados</a></li>
-          <li class="nav-item"><a class="nav-link" href="contato.html">Contato</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-    </header>
-    <section id="inicio" class="banner-section">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+
         <div class="container">
-            <div class="row">
-                <div class="col-12 text-center text-white">
-                    <h1 class="display-3 fw-bold mb-4">Dados & Estatísticas Ambientais</h1>
-                    <p class="subtitulo fs-4">Informações detalhadas sobre a preservação, o desmatamento e os impactos nos ecossistemas brasileiros.</p>
-                </div>
-            </div>
-        </div>
-    </section>
- <section id="indicadores" class="py-5 section-white">
-      <div class="container">
-        <div class="text-center mb-5">
-          <h2>Indicadores do Ecossistema no Brasil</h2>
-          <p class="lead">Dados sobre a preservação de florestas, degradação do solo e proteção das espécies.</p>
-        </div>
 
-        <div class="row g-4">
-          <!-- Card Florestas de Proteção -->
-          <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm border-0">
-              <div class="card-body">
-                <div class="d-flex align-items-center mb-3">
-                  <i class="fas fa-tree fa-2x text-success me-3"></i>
-                  <h3 class="h5 mb-0 card-title">Cobertura Florestal Protegida</h3>
-                </div>
-                <p class="card-text flex-grow-1">Proporção de áreas de floresta nativa inseridas em Unidades de Conservação e terras protegidas.</p>
-                <div class="mt-auto">
-                  <div class="d-flex justify-content-between mb-1">
-                    <small class="fw-bold">Área Protegida</small>
-                    <small class="fw-bold text-success">30,2%</small>
-                  </div>
-                  <div class="progress" style="height: 12px;">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 30.2%;" aria-valuenow="30.2" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            <a class="navbar-brand fw-bold" href="index.html">
+                VIDA TERRESTRE
+            </a>
 
-          <!-- Card Risco de Extinção -->
-          <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm border-0">
-              <div class="card-body">
-                <div class="d-flex align-items-center mb-3">
-                  <i class="fas fa-paw fa-2x text-warning me-3"></i>
-                  <h3 class="h5 mb-0 card-title">Espécies Ameaçadas</h3>
-                </div>
-                <p class="card-text flex-grow-1">Índice da fauna e flora nativas com algum grau de ameaça de extinção em biomas brasileiros.</p>
-                <div class="mt-auto">
-                  <div class="d-flex justify-content-between mb-1">
-                    <small class="fw-bold">Nível de Risco</small>
-                    <small class="fw-bold text-warning">19,8%</small>
-                  </div>
-                  <div class="progress" style="height: 12px;">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 19.8%;" aria-valuenow="19.8" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Abrir menu">
 
-          <!-- Card Degradação e Desmatamento -->
-          <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm border-0">
-              <div class="card-body">
-                <div class="d-flex align-items-center mb-3">
-                  <i class="fas fa-mountain fa-2x text-danger me-3"></i>
-                  <h3 class="h5 mb-0 card-title">Solo Degradado</h3>
-                </div>
-                <p class="card-text flex-grow-1">Percentual de áreas suscetíveis à desertificação e perda de fertilidade devido ao uso inadequado.</p>
-                <div class="mt-auto">
-                  <div class="d-flex justify-content-between mb-1">
-                    <small class="fw-bold">Áreas Afetadas</small>
-                    <small class="fw-bold text-danger">15,4%</small>
-                  </div>
-                  <div class="progress" style="height: 12px;">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 15.4%;" aria-valuenow="15.4" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </div>
-              </div>
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Início</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="biomas.html">Biomas</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="ameacas.html">Ameaças</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="dados.html">Dados</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="contato.html">Contato</a>
+                    </li>
+
+                </ul>
+
             </div>
-          </div>
+
         </div>
 
-        <!-- Alerta de Fonte -->
-        <div class="row mt-5">
-          <div class="col-12">
-            <div class="alert alert-info border-0 shadow-sm text-center" role="alert" style="background-color: #f4f6f0; color: #1e4d2b;">
-              <i class="fas fa-leaf me-2"></i> Indicadores atualizados segundo a Agenda 2030 das Nações Unidas e dados do IBGE. 
-              <a href="https://brasil.un.org/pt-br/sdgs/15" target="_blank" rel="noopener noreferrer">Acesse o portal oficial do ODS 15</a>.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    </nav>
 
-    <!-- Seção FAQ / Metas da Agenda 2030 -->
-    <section id="meta" class="py-5" style="background-color: #f4f6f0;">
-      <div class="container">
-        <div class="text-center mb-5">
-          <h2>Metas do ODS 15</h2>
-          <p class="lead">Entenda os principais compromissos para garantir a vida terrestre até 2030.</p>
-        </div>
 
-        <div class="row justify-content-center">
-          <div class="col-lg-8">
-            <div class="accordion" id="faqAccordion">
-              <div class="accordion-item shadow-sm">
-                <h3 class="accordion-header" id="headingOne">
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Conservação de Ecossistemas Terrestres e de Água Doce
-                  </button>
-                </h3>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
-                  <div class="accordion-body">
-                    Assegurar a conservação, restauração e uso sustentável de ecossistemas terrestres e de água doce interiores, especialmente florestas, zonas úmidas, montanhas e terras áridas.
-                  </div>
-                </div>
-              </div>
+    <!-- BANNER -->
 
-              <div class="accordion-item shadow-sm">
-                <h3 class="accordion-header" id="headingTwo">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Manejo Florestal Sustentável e Fim do Desmatamento
-                  </button>
-                </h3>
-                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
-                  <div class="accordion-body">
-                    Promover a implementação do manejo sustentável de todos os tipos de florestas, deter o desmatamento, restaurar florestas degradadas e aumentar o reflorestamento globalmente.
-                  </div>
-                </div>
-              </div>
+    <section class="dados-banner">
 
-              <div class="accordion-item shadow-sm">
-                <h3 class="accordion-header" id="headingThree">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Combate à Caça Ilegal e Tráfico de Fauna e Flora
-                  </button>
-                </h3>
-                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
-                  <div class="accordion-body">
-                    Tomar medidas urgentes para acabar com a caça ilegal e o tráfico de espécies protegidas da flora e da fauna, abordando tanto a oferta quanto a demanda por produtos ilegais.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Rodapé -->
-    <footer class="py-4 text-white text-center footer-custom">
         <div class="container">
-            <p class="mb-1">Projeto Educacional - Monitoramento e Estatísticas Ambientais</p>
+
+            <h1>Dados do Desmatamento</h1>
+
+            <p class="subtitulo">
+                Números e informações sobre o desmatamento dos biomas brasileiros
+            </p>
+
         </div>
+
+    </section>
+
+
+    <!-- INTRODUÇÃO -->
+
+    <section class="py-5">
+
+        <div class="container">
+
+            <h2 class="text-center">
+                O desmatamento em números
+            </h2>
+
+            <p class="lead text-center">
+                Os dados ajudam a compreender a dimensão do desmatamento no Brasil
+                e quais biomas apresentam as maiores áreas de vegetação nativa perdida.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- PRINCIPAIS DADOS -->
+
+    <section class="py-5 section-light">
+
+        <div class="container">
+
+            <h2 class="text-center">
+                Principais dados de 2025
+            </h2>
+
+            <div class="row g-4">
+
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="card dado-card h-100 shadow-sm">
+
+                        <div class="card-body text-center">
+
+                            <div class="dado-icone">
+                                🌳
+                            </div>
+
+                            <h3>
+                                984.794 ha
+                            </h3>
+
+                            <p>
+                                Área desmatada no Brasil em 2025.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="card dado-card h-100 shadow-sm">
+
+                        <div class="card-body text-center">
+
+                            <div class="dado-icone">
+                                📉
+                            </div>
+
+                            <h3>
+                                -20,6%
+                            </h3>
+
+                            <p>
+                                Redução da área desmatada em comparação com 2024.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="card dado-card h-100 shadow-sm">
+
+                        <div class="card-body text-center">
+
+                            <div class="dado-icone">
+                                🚨
+                            </div>
+
+                            <h3>
+                                46.170
+                            </h3>
+
+                            <p>
+                                Alertas de desmatamento validados em 2025.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6 col-lg-3">
+
+                    <div class="card dado-card h-100 shadow-sm">
+
+                        <div class="card-body text-center">
+
+                            <div class="dado-icone">
+                                🌎
+                            </div>
+
+                            <h3>
+                                10,9 milhões
+                            </h3>
+
+                            <p>
+                                Hectares desmatados entre 2019 e 2025.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TABELA -->
+
+    <section class="py-5">
+
+        <div class="container">
+
+            <h2 class="text-center">
+                Desmatamento por bioma em 2025
+            </h2>
+
+            <p class="text-center lead">
+                Confira a área desmatada, a participação no total e o número de alertas registrados.
+            </p>
+
+            <div class="table-responsive tabela-dados">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Bioma</th>
+                            <th>Área desmatada</th>
+                            <th>Participação</th>
+                            <th>Variação</th>
+                            <th>Alertas</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <strong>Cerrado</strong>
+                            </td>
+
+                            <td>
+                                540.614 ha
+                            </td>
+
+                            <td>
+                                54,9%
+                            </td>
+
+                            <td class="queda">
+                                -16,9%
+                            </td>
+
+                            <td>
+                                9.217
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>Amazônia</strong>
+                            </td>
+
+                            <td>
+                                289.478 ha
+                            </td>
+
+                            <td>
+                                29,4%
+                            </td>
+
+                            <td class="queda">
+                                -23,5%
+                            </td>
+
+                            <td>
+                                18.796
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>Caatinga</strong>
+                            </td>
+
+                            <td>
+                                128.947 ha
+                            </td>
+
+                            <td>
+                                13,1%
+                            </td>
+
+                            <td class="queda">
+                                -25,9%
+                            </td>
+
+                            <td>
+                                14.838
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>Mata Atlântica</strong>
+                            </td>
+
+                            <td>
+                                12.912 ha
+                            </td>
+
+                            <td>
+                                1,3%
+                            </td>
+
+                            <td class="queda">
+                                -4,7%
+                            </td>
+
+                            <td>
+                                3.003
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>Pantanal</strong>
+                            </td>
+
+                            <td>
+                                12.260 ha
+                            </td>
+
+                            <td>
+                                1,2%
+                            </td>
+
+                            <td class="queda">
+                                -48,4%
+                            </td>
+
+                            <td>
+                                163
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                <strong>Pampa</strong>
+                            </td>
+
+                            <td>
+                                583 ha
+                            </td>
+
+                            <td>
+                                0,1%
+                            </td>
+
+                            <td class="queda">
+                                -33,8%
+                            </td>
+
+                            <td>
+                                153
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- COMPARAÇÃO -->
+
+    <section class="py-5 section-light">
+
+        <div class="container">
+
+            <h2 class="text-center">
+                Comparação entre os biomas
+            </h2>
+
+            <p class="text-center lead">
+                O Cerrado apresentou a maior área desmatada entre os biomas brasileiros em 2025.
+            </p>
+
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body p-4">
+
+                    <div class="barra-item">
+
+                        <div class="d-flex justify-content-between">
+
+                            <strong>Cerrado</strong>
+
+                            <span>540.614 ha</span>
+
+                        </div>
+
+                        <div class="barra-dados">
+                            <span style="width: 100%;"></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="barra-item">
+
+                        <div class="d-flex justify-content-between">
+
+                            <strong>Amazônia</strong>
+
+                            <span>289.478 ha</span>
+
+                        </div>
+
+                        <div class="barra-dados">
+                            <span style="width: 53.6%;"></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="barra-item">
+
+                        <div class="d-flex justify-content-between">
+
+                            <strong>Caatinga</strong>
+
+                            <span>128.947 ha</span>
+
+                        </div>
+
+                        <div class="barra-dados">
+                            <span style="width: 23.9%;"></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="barra-item">
+
+                        <div class="d-flex justify-content-between">
+
+                            <strong>Mata Atlântica</strong>
+
+                            <span>12.912 ha</span>
+
+                        </div>
+
+                        <div class="barra-dados">
+                            <span style="width: 2.4%;"></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="barra-item">
+
+                        <div class="d-flex justify-content-between">
+
+                            <strong>Pantanal</strong>
+
+                            <span>12.260 ha</span>
+
+                        </div>
+
+                        <div class="barra-dados">
+                            <span style="width: 2.3%;"></span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="barra-item mb-0">
+
+                        <div class="d-flex justify-content-between">
+
+                            <strong>Pampa</strong>
+
+                            <span>583 ha</span>
+
+                        </div>
+
+                        <div class="barra-dados">
+                            <span style="width: 0.2%;"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- DESTAQUES -->
+
+    <section class="py-5">
+
+        <div class="container">
+
+            <h2 class="text-center">
+                Biomas em destaque
+            </h2>
+
+            <div class="row g-4">
+
+
+                <div class="col-lg-6">
+
+                    <div class="card h-100 shadow-sm">
+
+                        <div class="card-body p-4">
+
+                            <h3>
+                                🌾 Cerrado
+                            </h3>
+
+                            <p>
+                                O Cerrado apresentou 540.614 hectares de área desmatada
+                                em 2025, correspondendo a 54,9% do total registrado pelo
+                                MapBiomas Alerta.
+                            </p>
+
+                            <p>
+                                Mesmo apresentando uma redução de 16,9% em relação a 2024,
+                                o Cerrado continuou sendo o bioma com a maior área desmatada
+                                no período.
+                            </p>
+
+                            <p class="mb-0">
+                                A região conhecida como MATOPIBA, formada por Maranhão,
+                                Tocantins, Piauí e Bahia, possui grande importância nos
+                                números de desmatamento do Cerrado.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-lg-6">
+
+                    <div class="card h-100 shadow-sm">
+
+                        <div class="card-body p-4">
+
+                            <h3>
+                                🌳 Amazônia
+                            </h3>
+
+                            <p>
+                                A Amazônia registrou 289.478 hectares de área desmatada
+                                em 2025, representando 29,4% do total registrado.
+                            </p>
+
+                            <p>
+                                Em relação a 2024, houve uma redução de 23,5%.
+                                O bioma também apresentou 18.796 alertas de desmatamento
+                                validados.
+                            </p>
+
+                            <p class="mb-0">
+                                O INPE também realiza o monitoramento da Amazônia por meio
+                                do sistema PRODES. Em 2025, o sistema registrou 5.731 km²
+                                de desmatamento na Amazônia Legal.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- EVOLUÇÃO -->
+
+    <section class="py-5 section-light">
+
+        <div class="container">
+
+            <h2 class="text-center">
+                Evolução do desmatamento
+            </h2>
+
+            <p class="text-center lead">
+                Área total desmatada no Brasil entre 2019 e 2025, segundo o MapBiomas Alerta.
+            </p>
+
+
+            <div class="row g-3">
+
+
+                <div class="col-6 col-md-4 col-lg">
+
+                    <div class="ano-dado">
+
+                        <strong>2019</strong>
+
+                        <span>
+                            1.220.095 ha
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg">
+
+                    <div class="ano-dado">
+
+                        <strong>2020</strong>
+
+                        <span>
+                            1.639.444 ha
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg">
+
+                    <div class="ano-dado">
+
+                        <strong>2021</strong>
+
+                        <span>
+                            1.873.709 ha
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg">
+
+                    <div class="ano-dado">
+
+                        <strong>2022</strong>
+
+                        <span>
+                            2.115.078 ha
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg">
+
+                    <div class="ano-dado">
+
+                        <strong>2023</strong>
+
+                        <span>
+                            1.839.012 ha
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-6 col-md-4 col-lg">
+
+                    <div class="ano-dado">
+
+                        <strong>2024</strong>
+
+                        <span>
+                            1.240.933 ha
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-12 col-lg">
+
+                    <div class="ano-dado destaque-ano">
+
+                        <strong>2025</strong>
+
+                        <span>
+                            984.794 ha
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card border-0 shadow-sm mt-4">
+
+                <div class="card-body text-center p-4">
+
+                    <h3>
+                        2025 apresentou o menor valor da série
+                    </h3>
+
+                    <p class="mb-0">
+                        Pela primeira vez desde o início da série do MapBiomas Alerta,
+                        em 2019, o total anual registrado ficou abaixo de 1 milhão de hectares.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ACORDEÃO -->
+
+    <section class="py-5">
+
+        <div class="container">
+
+            <h2 class="text-center">
+                Entenda os dados
+            </h2>
+
+
+            <div class="accordion" id="accordionDados">
+
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header" id="headingDados1">
+
+                        <button class="accordion-button"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseDados1"
+                            aria-expanded="true"
+                            aria-controls="collapseDados1">
+
+                            📊 Houve redução do desmatamento em 2025?
+
+                        </button>
+
+                    </h2>
+
+                    <div id="collapseDados1"
+                        class="accordion-collapse collapse show"
+                        aria-labelledby="headingDados1"
+                        data-bs-parent="#accordionDados">
+
+                        <div class="accordion-body">
+
+                            Sim. De acordo com o MapBiomas Alerta, a área total
+                            desmatada no Brasil diminuiu 20,6% em 2025 em comparação
+                            com 2024. Todos os seis biomas apresentaram redução.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header" id="headingDados2">
+
+                        <button class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseDados2"
+                            aria-expanded="false"
+                            aria-controls="collapseDados2">
+
+                            🌱 Qual bioma teve a maior área desmatada?
+
+                        </button>
+
+                    </h2>
+
+                    <div id="collapseDados2"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="headingDados2"
+                        data-bs-parent="#accordionDados">
+
+                        <div class="accordion-body">
+
+                            O Cerrado apresentou a maior área desmatada em 2025,
+                            com 540.614 hectares. Esse valor corresponde a 54,9%
+                            de todo o desmatamento registrado pelo MapBiomas Alerta
+                            no Brasil naquele ano.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header" id="headingDados3">
+
+                        <button class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseDados3"
+                            aria-expanded="false"
+                            aria-controls="collapseDados3">
+
+                            🚜 Qual é uma das principais causas do desmatamento?
+
+                        </button>
+
+                    </h2>
+
+                    <div id="collapseDados3"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="headingDados3"
+                        data-bs-parent="#accordionDados">
+
+                        <div class="accordion-body">
+
+                            A agropecuária aparece como o principal vetor associado
+                            à perda de vegetação nativa. A expansão de áreas destinadas
+                            à produção agropecuária está relacionada a grande parte
+                            da conversão da vegetação nativa.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header" id="headingDados4">
+
+                        <button class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseDados4"
+                            aria-expanded="false"
+                            aria-controls="collapseDados4">
+
+                            ⚠️ MapBiomas e INPE apresentam os mesmos números?
+
+                        </button>
+
+                    </h2>
+
+                    <div id="collapseDados4"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="headingDados4"
+                        data-bs-parent="#accordionDados">
+
+                        <div class="accordion-body">
+
+                            Não. Os sistemas possuem metodologias, períodos,
+                            áreas de análise e critérios diferentes. Por isso,
+                            seus resultados devem ser utilizados como informações
+                            complementares e não como números que podem ser somados
+                            diretamente.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header" id="headingDados5">
+
+                        <button class="accordion-button collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseDados5"
+                            aria-expanded="false"
+                            aria-controls="collapseDados5">
+
+                            🌾 Por que os dados do Pampa precisam de atenção?
+
+                        </button>
+
+                    </h2>
+
+                    <div id="collapseDados5"
+                        class="accordion-collapse collapse"
+                        aria-labelledby="headingDados5"
+                        data-bs-parent="#accordionDados">
+
+                        <div class="accordion-body">
+
+                            O Pampa apresentou 583 hectares de desmatamento em 2025.
+                            Porém, o próprio sistema de monitoramento alerta que sua
+                            detecção é principalmente calibrada para formações florestais,
+                            podendo não representar toda a supressão de vegetação
+                            campestre nativa.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FONTES -->
+
+    <section class="py-5 section-light">
+
+        <div class="container">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body p-4 p-lg-5">
+
+                    <h2>
+                        Fontes dos dados
+                    </h2>
+
+                    <p>
+                        As informações apresentadas nesta página foram baseadas
+                        principalmente em dados do MapBiomas e do Instituto Nacional
+                        de Pesquisas Espaciais (INPE).
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            <strong>MapBiomas</strong> — Relatório Anual do Desmatamento
+                            no Brasil (RAD2025).
+                        </li>
+
+                        <li>
+                            <strong>MapBiomas Alerta</strong> — dados de alertas
+                            e áreas de desmatamento.
+                        </li>
+
+                        <li>
+                            <strong>INPE</strong> — sistema PRODES de monitoramento
+                            do desmatamento na Amazônia.
+                        </li>
+
+                    </ul>
+
+                    <div class="alert alert-info">
+
+                        <strong>Importante:</strong>
+                        os sistemas de monitoramento possuem metodologias diferentes.
+                        Portanto, os números não devem ser comparados diretamente
+                        sem considerar essas diferenças.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="container">
+
+            <p class="mb-0">
+                2025 - Criado por Artur Miguel - Todos os Direitos Reservados
+            </p>
+
+        </div>
+
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.js"></script>
+
 </body>
+
 </html>
