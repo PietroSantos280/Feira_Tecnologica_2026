@@ -92,6 +92,59 @@ p {
   box-shadow: 0 20px 55px rgba(0, 0, 0, 0.15);
 }
 
+.card-body h5 {
+    margin-top: 1rem;
+}
+
+.titulo-amazonia {
+    color: #198754 !important;
+}
+
+.titulo-cerrado {
+    color: #f0ad00 !important;
+}
+
+.titulo-mata {
+    color: #dc3545 !important;
+}
+
+.titulo-caatinga {
+    color: #a67c00 !important;
+}
+
+.titulo-pantanal {
+    color: #0d6efd !important;
+}
+
+.titulo-pampa {
+    color: #20a05a !important;
+}
+
+.badge-amazonia {
+    background-color: #198754;
+}
+
+.badge-cerrado {
+    background-color: #f0ad00;
+}
+
+.badge-mata
+{
+    background-color: #dc3545;
+}
+
+.badge-caatinga {
+    background-color: #a67c00;
+}
+
+.badge-pantanal {
+    background-color: #0d6efd;
+}
+
+.badge-pampa {
+    background-color: #20a05a;
+}
+
 section {
   position: relative;
 }
