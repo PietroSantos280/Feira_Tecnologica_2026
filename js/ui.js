@@ -236,21 +236,12 @@ class UIManager {
       }
     }
 
-    // Animais aparecem como marcadores legíveis sobre o planeta.
+    // Animais: sprites vetoriais leves, desenhados no próprio canvas.
     for (let y = 0; y < world.rows; y++) {
       for (let x = 0; x < world.cols; x++) {
         const tile = world.get(x, y);
         if (!tile.animal || !tile.inPlanet) continue;
-        const labels = { chicken: "G", horse: "C", cow: "V" };
-        ctx.fillStyle = "#f6d27a";
-        ctx.beginPath();
-        ctx.arc(x * sx + sx / 2, y * sy + sy / 2, Math.min(sx, sy) * .22, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = "#24352d";
-        ctx.font = `bold ${Math.max(10, Math.min(sx, sy) * .42)}px sans-serif`;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(labels[tile.animal] || "A", x * sx + sx / 2, y * sy + sy / 2);
+        this.drawAnimal(ctx, x * sx + sx / 2, y * sy + sy / 2, sx, sy, tile.animal, time);
       }
     }
 
@@ -265,39 +256,158 @@ class UIManager {
 
   drawTree(ctx, x, y, sx, sy, tree, time) {
     const stage = tree.stageIndex;
-    const sway = Math.sin(time * .0018 + x * .03) * sx * (.015 + stage * .004);
-    const scale = [.16, .25, .42, .64, .82][stage];
-    const trunkH = sy * .18 * (0.55 + scale);
-    const crown = Math.min(sx, sy) * .52 * scale;
+    const min = Math.min(sx, sy);
+    const sway = Math.sin(time * .0017 + x * .08 + y * .05) * sx * (.008 + stage * .003);
+    const growth = [.12, .22, .38, .58, .78][stage];
+    const trunkH = sy * (.10 + growth * .28);
+    const crown = min * (.24 + growth * .34);
 
-    ctx.fillStyle = "rgba(0,0,0,.22)";
+    // Sombra macia no chão.
+    ctx.save();
+    ctx.fillStyle = "rgba(20, 28, 20, .20)";
     ctx.beginPath();
-    ctx.ellipse(x + sx*.03, y + sy*.18, crown*.78, crown*.28, 0, 0, Math.PI*2);
+    ctx.ellipse(x + sx * .02, y + sy * .19, crown * .72, crown * .23, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = "#5d4a34";
-    ctx.fillRect(x - sx*.035, y + sy*.02 - trunkH, sx*.07, trunkH);
+    // Tronco com dois tons para dar volume.
+    if (stage > 0) {
+      ctx.fillStyle = "#5b432d";
+      ctx.fillRect(x - sx * .045, y + sy * .02 - trunkH, sx * .09, trunkH);
+      ctx.fillStyle = "rgba(184, 132, 76, .55)";
+      ctx.fillRect(x - sx * .012, y + sy * .02 - trunkH, sx * .024, trunkH);
+    }
 
     if (stage === 0) {
-      ctx.fillStyle = "#7aa75e";
-      ctx.fillRect(x - sx*.035, y - sy*.05, sx*.07, sy*.06);
+      ctx.fillStyle = "#6fa95f";
+      ctx.beginPath();
+      ctx.ellipse(x, y - sy * .035, sx * .055, sy * .065, -.15, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
       return;
     }
 
-    ctx.fillStyle = tree.data.color;
-    ctx.beginPath();
-    ctx.arc(x + sway, y - trunkH, crown, 0, Math.PI*2);
-    ctx.fill();
+    const cx = x + sway;
+    const cy = y - trunkH;
 
-    ctx.fillStyle = "rgba(119,175,98,.45)";
-    ctx.beginPath();
-    ctx.arc(x - crown*.25 + sway, y - trunkH - crown*.18, crown*.54, 0, Math.PI*2);
-    ctx.fill();
+    // Pinheiro: camadas triangulares.
+    if (tree.species === "pine") {
+      const layers = stage >= 4 ? 4 : stage >= 2 ? 3 : 2;
+      for (let i = 0; i < layers; i++) {
+        const yy = cy - crown * .72 + i * crown * .40;
+        const half = crown * (.45 + i * .12);
+        ctx.fillStyle = i % 2 ? "#286343" : "#347653";
+        ctx.beginPath();
+        ctx.moveTo(cx, yy - crown * .48);
+        ctx.lineTo(cx - half, yy + crown * .38);
+        ctx.lineTo(cx + half, yy + crown * .38);
+        ctx.closePath();
+        ctx.fill();
+      }
+    } else {
+      // Copa orgânica em 3 massas, evitando o círculo único artificial.
+      const base = tree.data.color;
+      const hi = tree.species === "ipê" ? "#79a95a" : "#6da15a";
+      ctx.fillStyle = base;
+      const blobs = [
+        [-.34, .06, .58], [.30, .04, .64], [0, -.30, .70], [0, .18, .58]
+      ];
+      for (const [ox, oy, r] of blobs) {
+        ctx.beginPath();
+        ctx.arc(cx + crown * ox, cy + crown * oy, crown * r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.fillStyle = hi;
+      ctx.globalAlpha = .58;
+      ctx.beginPath();
+      ctx.arc(cx - crown * .23, cy - crown * .28, crown * .43, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
 
-    if (stage >= 4) {
-      ctx.fillStyle = "rgba(206,220,127,.45)";
-      ctx.fillRect(x - crown*.45 + sway, y - trunkH - crown*.05, crown*.15, crown*.11);
-      ctx.fillRect(x + crown*.2 + sway, y - trunkH + crown*.1, crown*.12, crown*.09);
+      // Ipê ganha pequenas flores douradas quando adulto.
+      if (tree.species === "ipê" && stage >= 3) {
+        ctx.fillStyle = "#f2c95c";
+        const flowers = stage === 4 ? 7 : 4;
+        for (let i = 0; i < flowers; i++) {
+          const a = i * 2.399 + x * .17;
+          const rr = crown * (.35 + (i % 3) * .14);
+          const fx = cx + Math.cos(a) * rr;
+          const fy = cy + Math.sin(a) * rr * .72;
+          ctx.beginPath();
+          ctx.arc(fx, fy, Math.max(1.2, min * .035), 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
     }
+
+    // Pequenos brilhos naturais em árvores maduras.
+    if (stage >= 4) {
+      ctx.fillStyle = "rgba(205, 231, 132, .48)";
+      ctx.beginPath();
+      ctx.arc(cx - crown * .28, cy - crown * .25, Math.max(1, min * .025), 0, Math.PI * 2);
+      ctx.arc(cx + crown * .18, cy - crown * .05, Math.max(1, min * .022), 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  drawAnimal(ctx, x, y, sx, sy, species, time) {
+    const s = Math.min(sx, sy);
+    const bob = Math.sin(time * .004 + x * .05) * s * .018;
+    const scale = Math.max(.72, Math.min(1.18, s / 24));
+    ctx.save();
+    ctx.translate(x, y + bob);
+    ctx.scale(scale, scale);
+
+    // Sombra.
+    ctx.fillStyle = "rgba(20, 28, 20, .18)";
+    ctx.beginPath();
+    ctx.ellipse(0, s * .22, s * .30, s * .09, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    if (species === "chicken") {
+      // Corpo, cabeça, asa e crista.
+      ctx.fillStyle = "#f2eee2";
+      ctx.beginPath(); ctx.ellipse(-s*.03, s*.02, s*.22, s*.15, 0, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(s*.18, -s*.10, s*.105, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = "#d95f4d";
+      ctx.beginPath(); ctx.arc(s*.18, -s*.20, s*.045, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = "#e5a83b";
+      ctx.beginPath(); ctx.moveTo(s*.27,-s*.08); ctx.lineTo(s*.37,-s*.04); ctx.lineTo(s*.27,0); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#27372c";
+      ctx.beginPath(); ctx.arc(s*.21,-s*.13, s*.018, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = "#b88332"; ctx.lineWidth = s*.025;
+      ctx.beginPath(); ctx.moveTo(-s*.08,s*.13); ctx.lineTo(-s*.08,s*.23); ctx.moveTo(s*.08,s*.13); ctx.lineTo(s*.08,s*.23); ctx.stroke();
+    } else if (species === "horse") {
+      ctx.fillStyle = "#9a6a49";
+      ctx.beginPath(); ctx.ellipse(-s*.02,s*.03,s*.28,s*.16,0,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(s*.23,-s*.10,s*.12,s*.16,-.2,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = "#4c3429";
+      ctx.beginPath(); ctx.moveTo(s*.15,-s*.22); ctx.lineTo(s*.07,-s*.35); ctx.lineTo(s*.18,-s*.28); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#2d352f";
+      ctx.beginPath(); ctx.arc(s*.27,-s*.14,s*.018,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle = "#604332"; ctx.lineWidth = s*.035;
+      for (const lx of [-.18,-.02,.13,.25]) {
+        ctx.beginPath(); ctx.moveTo(s*lx,s*.13); ctx.lineTo(s*lx,s*.25); ctx.stroke();
+      }
+    } else {
+      // Vaca: corpo branco, manchas e chifres.
+      ctx.fillStyle = "#eee8da";
+      ctx.beginPath(); ctx.ellipse(-s*.03,s*.02,s*.30,s*.17,0,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(s*.25,-s*.08,s*.13,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = "#6b5145";
+      ctx.beginPath(); ctx.arc(-s*.14,-s*.04,s*.09,0,Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(s*.05,s*.07,s*.07,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle = "#c79a92";
+      ctx.beginPath(); ctx.ellipse(s*.29,s*.01,s*.07,s*.045,0,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle = "#c7a76d"; ctx.lineWidth = s*.025;
+      ctx.beginPath(); ctx.moveTo(s*.20,-s*.18); ctx.lineTo(s*.13,-s*.26); ctx.moveTo(s*.31,-s*.18); ctx.lineTo(s*.37,-s*.25); ctx.stroke();
+      ctx.fillStyle = "#27372c";
+      ctx.beginPath(); ctx.arc(s*.28,-s*.12,s*.018,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle = "#6f5a4a"; ctx.lineWidth = s*.035;
+      for (const lx of [-.18,-.02,.15]) {
+        ctx.beginPath(); ctx.moveTo(s*lx,s*.14); ctx.lineTo(s*lx,s*.25); ctx.stroke();
+      }
+    }
+    ctx.restore();
   }
 }
