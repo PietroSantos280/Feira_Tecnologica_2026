@@ -586,3 +586,11 @@ section a:hover {
   }
 
 }
+/* FOTO DOS PARTICIPANTES DO GRUPO */
+#participantes .card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 8px;
+}

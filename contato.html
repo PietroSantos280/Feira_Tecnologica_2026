@@ -21,7 +21,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
             <div class="container">
-                <a class="navbar-brand fw-bold">VIDA TERRESTRE</a>
+                <a class="navbar-brand fw-bold" href="index.html">VIDA TERRESTRE</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -56,7 +56,7 @@
                 <div class="col-lg-7">
                     <div class="contact-card">
                         <h2>Envie sua Mensagem</h2>
-                        <form class="formulario-contato" action="https://formsubmit.co/arturmiguel9890@gmail.com"
+                        <form class="formulario-contato" id="formularioContato" action="https://formsubmit.co/arturmiguel9890@gmail.com"
                             method="post">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nome Completo *</label>
@@ -80,7 +80,7 @@
                                 <label for="subject" class="form-label">Assunto *</label>
                                 <select class="form-select" id="subject" name="subject" required>
                                     <option value="">Selecione um assunto</option>
-                                    <option value="duvida">Dúvida sobre vícios</option>
+                                    <option value="duvida">Dúvida sobre biomas</option>
                                     <option value="ajuda">Preciso de ajuda</option>
                                     <option value="informacao">Informações sobre o projeto</option>
                                     <option value="sugestao">Sugestão</option>
@@ -94,6 +94,7 @@
                                     placeholder="Escreva sua mensagem aqui..."></textarea>
                             </div>
 
+                            <!-- Botão submit sem precisar de onclick inline -->
                             <button type="submit" class="btn btn-submit">Enviar Mensagem</button>
                         </form>
                     </div>
@@ -125,13 +126,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
-                    <p class="mb-1">&copy; 2025 Projeto Vício na Adolescência. Todos os direitos reservados.</p>
+                    <p class="mb-1">&copy; 2026 Projeto Vida Terrestre. Todos os direitos reservados.</p>
                 </div>
             </div>
         </div>
     </footer>
 
     <script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.js"></script>
+    <script src="inicio.js"></script>
 </body>
 
 </html>
