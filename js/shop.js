@@ -2,13 +2,12 @@ class ShopSystem {
   constructor(game) {
     this.game = game;
     this.items = [
-      { id: "common", name: "Semente comum", description: "Espécie pioneira e resistente.", icon: "🌱", cost: 0, species: "common" },
       { id: "pine", name: "Pinheiro", description: "Cresce rápido e tolera solo seco.", icon: "🌲", cost: 8, species: "pine" },
       { id: "oak", name: "Carvalho", description: "Lento, robusto e excelente para o solo.", icon: "🌳", cost: 15, species: "oak" },
-      { id: "ipê", name: "Ipê", description: "Grande valor ecológico e biodiversidade.", icon: "I", cost: 22, species: "ipê" },
-      { id: "chicken", name: "Galinhas", description: "Desbloqueia com 5 árvores. Renda periódica.", icon: "G", cost: 100, animal: "chicken" },
-      { id: "horse", name: "Cavalos", description: "Desbloqueia com 5 árvores. Renda periódica.", icon: "C", cost: 200, animal: "horse" },
-      { id: "cow", name: "Vacas", description: "Desbloqueia com 5 árvores. Renda periódica.", icon: "V", cost: 300, animal: "cow" }
+      { id: "ipê", name: "Ipê", description: "Grande valor ecológico e biodiversidade.", icon: "🌼", cost: 22, species: "ipê" },
+      { id: "chicken", name: "Galinhas", description: "Desbloqueia com 5 árvores. Renda periódica.", icon: "🐔", cost: 100, animal: "chicken" },
+      { id: "horse", name: "Cavalos", description: "Desbloqueia com 5 árvores. Renda periódica.", icon: "🐎", cost: 200, animal: "horse" },
+      { id: "cow", name: "Vacas", description: "Desbloqueia com 5 árvores. Renda periódica.", icon: "🐄", cost: 300, animal: "cow" }
     ];
   }
 
