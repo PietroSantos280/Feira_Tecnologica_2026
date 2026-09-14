@@ -19,9 +19,6 @@ p {
   padding-bottom: 10px;
 }
 
-
-/* NAVBAR */
-
 .navbar {
   background: linear-gradient(135deg, #1e4d2b, #2e7d32);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -52,18 +49,14 @@ p {
   background: transparent;
 }
 
-
-/* BANNER */
-
 .banner-section {
   background:
-      linear-gradient(
-          135deg,
-          rgba(30, 77, 43, 0.8),
-          rgba(46, 125, 50, 0.7)
-      ),
-      url("../img/amazonia.jpg") center / cover no-repeat;
-
+    linear-gradient(
+      135deg,
+      rgba(30, 77, 43, 0.8),
+      rgba(46, 125, 50, 0.7)
+    ),
+    url("../img/amazonia.jpg") center / cover no-repeat;
   min-height: 500px;
   display: flex;
   align-items: center;
@@ -87,9 +80,6 @@ p {
   line-height: 1.6;
 }
 
-
-/* SEÇÕES */
-
 section {
   position: relative;
 }
@@ -107,9 +97,6 @@ section h2 {
 .section-light {
   background-color: #f4f6f0;
 }
-
-
-/* CARDS */
 
 .card {
   border-radius: 12px;
@@ -147,9 +134,6 @@ section h2 {
   color: #333;
 }
 
-
-/* TÍTULOS DOS BIOMAS */
-
 .titulo-amazonia {
   color: #198754 !important;
 }
@@ -173,9 +157,6 @@ section h2 {
 .titulo-pampa {
   color: #20a05a !important;
 }
-
-
-/* BADGES */
 
 .badge {
   display: block;
@@ -209,9 +190,6 @@ section h2 {
   background-color: #20a05a;
 }
 
-
-/* ACCORDION */
-
 .accordion-item {
   border-radius: 12px !important;
   overflow: hidden;
@@ -243,107 +221,165 @@ section h2 {
   line-height: 1.7;
 }
 
-
-/* CARROSSEL */
-
 #biomasCarousel {
+  position: relative;
+  width: 100%;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 14px;
   background-color: white;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
 }
 
 #biomasCarousel .carousel-inner {
-  border-radius: 12px;
+  width: 100%;
+  border-radius: 14px;
   background-color: white;
 }
 
 #biomasCarousel .carousel-item {
-  min-height: 430px;
+  width: 100%;
+  background-color: white;
 }
 
-#biomasCarousel .card {
-  box-shadow: none !important;
+#biomasCarousel .conservacao-slide {
+  width: 100%;
+  background-color: white;
 }
 
-#biomasCarousel .card-body {
-  padding: 50px !important;
+#biomasCarousel .carousel-imagem {
+  position: relative;
+  width: 100%;
+  height: 330px;
+  overflow: hidden;
 }
 
-#biomasCarousel h4 {
-  color: #1e4d2b;
-  margin-top: 10px;
-}
-
-.carousel-img {
-  width: 140px;
-  height: 140px;
+#biomasCarousel .carousel-imagem img {
+  width: 100%;
+  height: 100%;
+  display: block;
   object-fit: cover;
   object-position: center;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+}
+
+#biomasCarousel .conservacao-conteudo {
+  width: 100%;
+  background-color: white;
+  text-align: center;
+  padding: 30px 70px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#biomasCarousel .conservacao-conteudo h4 {
+  width: 100%;
+  color: #1e4d2b;
+  font-size: 1.75rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 6px;
+}
+
+#biomasCarousel .conservacao-subtitulo {
+  width: 100%;
+  color: #777;
+  font-size: 1rem;
+  text-align: center;
+  margin: 0 0 25px;
+}
+
+#biomasCarousel .conservacao-texto {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 14px;
+  color: #444;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+#biomasCarousel .conservacao-texto.secundario {
+  color: #777;
+  font-size: 0.95rem;
+  margin-bottom: 0;
 }
 
 #biomasCarousel .carousel-control-prev,
 #biomasCarousel .carousel-control-next {
-  width: 8%;
-  opacity: 0.8;
-}
-
-#biomasCarousel .carousel-control-prev:hover,
-#biomasCarousel .carousel-control-next:hover {
+  position: absolute;
+  top: 0;
+  bottom: auto;
+  height: 330px;
+  width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   opacity: 1;
+  z-index: 10;
 }
 
-#biomasCarousel .carousel-control-prev-icon,
-#biomasCarousel .carousel-control-next-icon {
-  background-color: #1e4d2b;
+#biomasCarousel .carousel-control-prev {
+  left: 0;
+}
+
+#biomasCarousel .carousel-control-next {
+  right: 0;
+}
+
+#biomasCarousel .seta-carrossel {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
-  padding: 20px;
+  background-color: rgba(20, 30, 24, 0.72);
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1;
+  padding-bottom: 6px;
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+#biomasCarousel .carousel-control-prev:hover .seta-carrossel,
+#biomasCarousel .carousel-control-next:hover .seta-carrossel {
+  background-color: #1e4d2b;
+  transform: scale(1.08);
+}
+
+#biomasCarousel .carousel-indicators {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  gap: 7px;
+  z-index: 20;
 }
 
 #biomasCarousel .carousel-indicators button {
-  background-color: #1e4d2b;
-  width: 12px;
-  height: 12px;
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  margin: 0;
+  border: none;
   border-radius: 50%;
-  margin: 0 5px;
+  background-color: #a5b2aa;
+  opacity: 1;
+  transition: 0.25s ease;
 }
 
-
-/* RODAPÉ */
-
-footer {
-  background: linear-gradient(135deg, #1e4d2b, #2e7d32);
-  color: white;
-  text-align: center;
-  padding: 20px 0;
+#biomasCarousel .carousel-indicators button.active {
+  width: 25px;
+  border-radius: 10px;
+  background-color: #1e4d2b;
 }
 
-footer p {
-  margin-bottom: 5px;
-  padding-bottom: 0;
-}
-
-footer small {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-
-/* LINKS */
-
-section a {
-  color: #1e4d2b;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-section a:hover {
-  color: #2e7d32;
-  text-decoration: underline;
-}
-
-/*AMEAÇAS*/
 .icone-ameaca {
   width: 170px;
   height: 170px;
@@ -351,8 +387,6 @@ section a:hover {
   object-position: center 70%;
   border-radius: 8px;
 }
-
-/* CONTATO */
 
 .contact-section {
   padding: 60px 0;
@@ -412,18 +446,14 @@ section a:hover {
   box-shadow: 0 6px 20px rgba(30, 77, 43, 0.3);
 }
 
-
-/* DADOS */
-
 .dados-banner {
   background:
-      linear-gradient(
-          135deg,
-          rgba(30, 77, 43, 0.8),
-          rgba(46, 125, 50, 0.7)
-      ),
-      url("../img/amazonia.jpg") center / cover no-repeat;
-
+    linear-gradient(
+      135deg,
+      rgba(30, 77, 43, 0.8),
+      rgba(46, 125, 50, 0.7)
+    ),
+    url("../img/amazonia.jpg") center / cover no-repeat;
   min-height: 500px;
   display: flex;
   align-items: center;
@@ -442,147 +472,373 @@ section a:hover {
   color: white;
 }
 
+.preservacao-banner {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(30, 77, 43, 0.8),
+      rgba(46, 125, 50, 0.7)
+    ),
+    url("../img/amazonia.jpg") center / cover no-repeat;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 160px 20px 80px;
+  margin-top: 80px;
+}
 
-/* RESPONSIVIDADE */
+.preservacao-banner h1 {
+  font-family: "Surprisedmonkey", sans-serif;
+  font-size: 80px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.texto-introducao {
+  max-width: 850px;
+  margin: 0 auto;
+  color: #555;
+  line-height: 1.7;
+}
+
+.preservacao-item {
+  padding: 30px 20px;
+  height: 100%;
+}
+
+.preservacao-icone {
+  width: 75px;
+  height: 75px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e4d2b, #2e7d32);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.preservacao-item h5 {
+  color: #1e4d2b;
+  margin-bottom: 15px;
+}
+
+.preservacao-item p {
+  color: #555;
+  line-height: 1.7;
+}
+
+section a {
+  color: #1e4d2b;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+section a:hover {
+  color: #2e7d32;
+  text-decoration: underline;
+}
+
+footer {
+  background: linear-gradient(135deg, #1e4d2b, #2e7d32);
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+}
+
+footer p {
+  margin-bottom: 5px;
+  padding-bottom: 0;
+}
+
+footer small {
+  color: rgba(255, 255, 255, 0.7);
+}
 
 @media (max-width: 991px) {
 
   .navbar {
-      min-height: 70px;
+    min-height: 70px;
   }
 
   .navbar-collapse {
-      background: linear-gradient(135deg, #1e4d2b, #2e7d32);
-      padding: 1rem;
-      margin-top: 0.5rem;
-      border-radius: 8px;
+    background: linear-gradient(135deg, #1e4d2b, #2e7d32);
+    padding: 1rem;
+    margin-top: 0.5rem;
+    border-radius: 8px;
   }
 
   .nav-link {
-      padding: 0.75rem 1rem;
-      border-radius: 4px;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
   }
 
   .banner-section h1 {
-      font-size: 60px;
+    font-size: 60px;
   }
 
   .dados-banner h1 {
-      font-size: 60px;
+    font-size: 60px;
   }
-}
 
+  .preservacao-banner h1 {
+    font-size: 60px;
+  }
+
+}
 
 @media (max-width: 768px) {
 
   .banner-section {
-      min-height: 400px;
-      padding: 100px 20px 50px;
-      margin-top: 70px;
+    min-height: 400px;
+    padding: 100px 20px 50px;
+    margin-top: 70px;
   }
 
   .banner-section h1 {
-      font-size: 50px;
+    font-size: 50px;
   }
 
   .subtitulo {
-      font-size: 1.1rem;
+    font-size: 1.1rem;
   }
 
   .card-img-top {
-      height: 220px;
+    height: 220px;
   }
 
   .dados-banner {
-      min-height: 400px;
-      padding: 100px 20px 50px;
-      margin-top: 70px;
+    min-height: 400px;
+    padding: 100px 20px 50px;
+    margin-top: 70px;
   }
 
   .dados-banner h1 {
-      font-size: 50px;
+    font-size: 50px;
   }
 
-  #biomasCarousel .card-body {
-      padding: 40px 30px !important;
+  .preservacao-banner {
+    min-height: 400px;
+    padding: 100px 20px 50px;
+    margin-top: 70px;
   }
 
-  #biomasCarousel .carousel-item {
-      min-height: 450px;
+  .preservacao-banner h1 {
+    font-size: 50px;
   }
+
+  #biomasCarousel .carousel-imagem {
+    height: 290px;
+  }
+
+  #biomasCarousel .carousel-control-prev,
+  #biomasCarousel .carousel-control-next {
+    height: 290px;
+    width: 70px;
+  }
+
+  #biomasCarousel .seta-carrossel {
+    width: 43px;
+    height: 43px;
+    font-size: 35px;
+  }
+
+  #biomasCarousel .conservacao-conteudo {
+    padding: 30px 40px 52px;
+  }
+
+  #biomasCarousel .conservacao-conteudo h4 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  #biomasCarousel .conservacao-subtitulo {
+    text-align: center;
+  }
+
+  #biomasCarousel .conservacao-texto {
+    font-size: 1rem;
+    text-align: center;
+  }
+
 }
-
 
 @media (max-width: 576px) {
 
   .navbar {
-      min-height: 60px;
-      font-size: 16px;
+    min-height: 60px;
+    font-size: 16px;
   }
 
   .navbar-brand {
-      font-size: 0.9rem;
+    font-size: 0.9rem;
   }
 
   .banner-section {
-      min-height: 350px;
-      padding: 90px 15px 40px;
-      margin-top: 60px;
+    min-height: 350px;
+    padding: 90px 15px 40px;
+    margin-top: 60px;
   }
 
   .banner-section h1 {
-      font-size: 35px;
+    font-size: 35px;
   }
 
   .subtitulo {
-      font-size: 1rem;
+    font-size: 1rem;
   }
 
   .card-img-top {
-      height: 200px;
+    height: 200px;
   }
 
   .card-body {
-      padding: 20px;
+    padding: 20px;
   }
 
   .dados-banner {
-      min-height: 350px;
-      padding: 90px 15px 40px;
-      margin-top: 60px;
+    min-height: 350px;
+    padding: 90px 15px 40px;
+    margin-top: 60px;
   }
 
   .dados-banner h1 {
-      font-size: 35px;
+    font-size: 35px;
   }
 
-  #biomasCarousel .card-body {
-      padding: 35px 25px !important;
+  .preservacao-banner {
+    min-height: 350px;
+    padding: 90px 15px 40px;
+    margin-top: 60px;
   }
 
-  #biomasCarousel .carousel-item {
-      min-height: 500px;
+  .preservacao-banner h1 {
+    font-size: 35px;
   }
 
-  .carousel-img {
-      width: 110px;
-      height: 110px;
+  .texto-introducao {
+    font-size: 0.95rem;
   }
+
+  .preservacao-item {
+    padding: 20px 15px;
+  }
+
+  #biomasCarousel {
+    border-radius: 10px;
+  }
+
+  #biomasCarousel .carousel-imagem {
+    height: 230px;
+  }
+
+  #biomasCarousel .carousel-control-prev,
+  #biomasCarousel .carousel-control-next {
+    height: 230px;
+    width: 58px;
+  }
+
+  #biomasCarousel .seta-carrossel {
+    width: 38px;
+    height: 38px;
+    font-size: 31px;
+  }
+
+  #biomasCarousel .conservacao-conteudo {
+    padding: 27px 22px 48px;
+    text-align: center;
+  }
+
+  #biomasCarousel .conservacao-conteudo h4 {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  #biomasCarousel .conservacao-subtitulo {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  #biomasCarousel .conservacao-texto {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  #biomasCarousel .conservacao-texto.secundario {
+    font-size: 0.88rem;
+    text-align: center;
+  }
+
+  #biomasCarousel .carousel-indicators {
+    bottom: 13px;
+  }
+
+  #biomasCarousel .carousel-indicators button {
+    width: 8px;
+    height: 8px;
+  }
+
+  #biomasCarousel .carousel-indicators button.active {
+    width: 20px;
+  }
+
 }
-
 
 @media (max-width: 400px) {
 
   .banner-section h1 {
-      font-size: 28px;
+    font-size: 28px;
   }
 
   .navbar-brand {
-      font-size: 0.8rem;
+    font-size: 0.8rem;
   }
 
   .dados-banner h1 {
-      font-size: 30px;
+    font-size: 30px;
+  }
+
+  .preservacao-banner h1 {
+    font-size: 28px;
+  }
+
+  #biomasCarousel .carousel-imagem {
+    height: 200px;
+  }
+
+  #biomasCarousel .carousel-control-prev,
+  #biomasCarousel .carousel-control-next {
+    height: 200px;
+    width: 50px;
+  }
+
+  #biomasCarousel .seta-carrossel {
+    width: 34px;
+    height: 34px;
+    font-size: 28px;
+  }
+
+  #biomasCarousel .conservacao-conteudo {
+    padding: 25px 18px 45px;
+    text-align: center;
+  }
+
+  #biomasCarousel .conservacao-conteudo h4 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  #biomasCarousel .conservacao-subtitulo {
+    text-align: center;
+  }
+
+  #biomasCarousel .conservacao-texto {
+    text-align: center;
   }
 
 }
