@@ -27,7 +27,8 @@ class AnimalSystem {
     this.incomeTimer += dt;
     if (this.incomeTimer < 30) return;
     this.incomeTimer = 0;
-    const income = this.animals.reduce((sum, item) => sum + ANIMAL_SPECIES[item.species].income, 0);
+    const multiplier = this.game.climate ? this.game.climate.getIncomeMultiplier() : 1;
+    const income = Math.round(this.animals.reduce((sum, item) => sum + ANIMAL_SPECIES[item.species].income, 0) * multiplier);
     if (income) this.game.player.addCoins(income);
   }
 

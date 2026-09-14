@@ -11,6 +11,7 @@ class EconomySystem {
     const seconds = Math.floor(this.tickAccumulator);
     this.tickAccumulator -= seconds;
 
+    const multiplier = this.game.climate ? this.game.climate.getIncomeMultiplier() : 1;
     let income = 0;
     for (const row of this.game.world.tiles) {
       for (const tile of row) {
@@ -18,6 +19,7 @@ class EconomySystem {
         income += tile.tree.collectProduction() * seconds;
       }
     }
+    income = Math.round(income * multiplier);
     if (income > 0) {
       this.game.player.addCoins(income);
       this.lastIncome = income;

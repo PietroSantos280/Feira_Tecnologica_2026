@@ -8,8 +8,12 @@
 html, body { min-height: 100%; overflow-x: hidden; }
 body { padding-left: var(--safe-left); padding-right: var(--safe-right); padding-bottom: var(--safe-bottom); }
 canvas { display:block; max-width:100%; }
+
+.game-layout > * { min-width:0; }
+.world-wrap, .canvas-shell { width:100%; max-width:100%; }
+.canvas-shell { overflow:hidden; }
 #worldCanvas {
-  width:100%; height:auto; aspect-ratio:48 / 27; object-fit:contain;
+  width:100%; height:100%; aspect-ratio:auto; object-fit:contain;
   touch-action:none; image-rendering:auto;
 }
 button, .tool, .buy-button { min-height:42px; touch-action:manipulation; }
@@ -21,16 +25,23 @@ button, .tool, .buy-button { min-height:42px; touch-action:manipulation; }
   .layout, .game-layout, .main-layout { grid-template-columns:minmax(0,1fr)!important; }
   .sidebar, aside { width:100%; max-width:none; }
   .panel-grid, .stats-grid, .detail-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .left-panel { order:2; display:block; max-height:none; overflow:visible; }
+  .world-wrap { order:1; min-height:0; }
+  .right-panel { order:3; display:block; max-height:none; overflow:visible; }
+  .canvas-shell { min-height:360px; height:min(58vh,560px); }
 }
 @media (max-width:700px) {
   body { font-size:14px; }
   .page, .app, main, .container { width:100%; max-width:100%; padding-left:10px!important; padding-right:10px!important; }
   header, .topbar, .header { flex-wrap:wrap; gap:8px; }
-  #worldCanvas { border-radius:12px; }
+  #worldCanvas { border-radius:12px; width:100%; height:100%; aspect-ratio:auto; object-fit:contain; }
   .toolbar, .tools, .actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
   .tool, .actions button { width:100%; }
   .stats-grid, .detail-grid, .panel-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .shop-item { display:grid!important; grid-template-columns:42px minmax(0,1fr) auto; gap:8px; align-items:center; }
+  .shop-section { width:100%; }
+  #shopList { display:grid; gap:6px; }
+  .shop-item { min-height:58px; }
   .shop-item .buy-button { min-width:72px; }
   .toast-stack, #toastStack { left:10px; right:10px; width:auto; }
 }
@@ -43,4 +54,121 @@ button, .tool, .buy-button { min-height:42px; touch-action:manipulation; }
 }
 @media (prefers-reduced-motion:reduce) {
   *, *::before, *::after { scroll-behavior:auto!important; animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important; }
+}
+
+
+@media (max-width: 760px) {
+  #app { grid-template-rows: auto 1fr 28px; }
+  .topbar { padding: 8px 10px; }
+  .brand { min-width: 0; }
+  .brand span { display: none; }
+  .brand h1 { font-size: 16px; }
+  .top-actions { flex-wrap: wrap; justify-content: flex-end; }
+  .top-actions .icon-button { width: 40px; height: 40px; }
+  .stats { padding-bottom: 2px; scrollbar-width: thin; }
+  .stat { min-width: 94px; height: 46px; }
+  .game-layout { padding: 7px; gap: 8px; }
+  .world-wrap { min-height: 0; grid-template-rows: auto auto minmax(300px, 1fr); gap: 5px; order: 1; }
+  .world-toolbar { min-height: 38px; padding: 0 4px; gap: 6px; }
+  .world-status { min-width: 0; }
+  #worldMessage { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .season-block { display: none; }
+  .season-effects-row { padding: 0 4px 4px; }
+  .canvas-shell { height: min(52vh, 440px); min-height: 280px; }
+  .left-panel {
+    display: block;
+    order: 2;
+    max-height: none;
+    overflow: visible;
+  }
+  .left-panel .panel-title { padding: 10px 12px; }
+  .tool-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 8px;
+    gap: 6px;
+  }
+  .tool { min-height: 52px; padding: 8px; }
+  .tool small { font-size: 8px; }
+  .side-section { padding: 10px 12px; }
+  .right-panel { display: block; order: 3; max-height: none; overflow: visible; padding-bottom: 10px; }
+  .right-panel .panel-title { padding: 10px 12px; }
+  .right-panel .world-card, .right-panel .selection-card { margin: 8px; }
+  .right-panel .shop-section { padding: 9px 8px; }
+  .canvas-hint { max-width: calc(100% - 20px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .footer { padding: 0 9px; font-size: 7px; }
+}
+
+@media (max-width: 430px) {
+  .top-actions { gap: 4px; }
+  .top-actions .icon-button { width: 38px; height: 38px; }
+  .map-chip { font-size: 9px; padding: 7px 9px; }
+  .tool-list { grid-template-columns: 1fr 1fr; }
+  .tool { grid-template-columns: 30px minmax(0,1fr); gap: 6px; }
+  .tool > span { width: 28px; height: 28px; }
+  .canvas-shell { height: min(50vh, 400px); min-height: 260px; }
+  .canvas-hint { font-size: 9px; bottom: 9px; }
+}
+
+/* Ajuste final de dimensões: evita que o canvas crie uma área vazia ou scroll da página. */
+@media (min-width: 761px) {
+  .world-wrap { height: 100%; }
+  .canvas-shell { height: 100%; min-height: 0; }
+  .right-panel { height: 100%; max-height: 100%; overflow-y: auto; overflow-x: hidden; }
+}
+@media (max-width: 760px) {
+  #app { height: 100dvh; min-height: 0; }
+  .game-layout { min-height: 0; overflow: hidden; }
+  .world-wrap { min-height: 0; }
+  .right-panel { overflow-y: auto; overflow-x: hidden; }
+}
+
+/* Mobile: a página inteira volta a rolar normalmente. O layout desktop continua sem scroll externo. */
+@media (max-width: 760px) {
+  html, body {
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body {
+    overflow-y: auto !important;
+  }
+
+  #app {
+    height: auto !important;
+    min-height: 100vh;
+  }
+
+  .game-layout {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .world-wrap {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .canvas-shell {
+    height: min(58vw, 440px) !important;
+    min-height: 280px !important;
+    max-height: 440px;
+    overflow: hidden;
+  }
+
+  .right-panel {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .left-panel {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
 }

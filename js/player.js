@@ -6,7 +6,13 @@ class Player {
     this.selectedTool = "plant";
     this.selectedSpecies = "common";
     this.selectedAnimal = null;
+    this.selectedFish = null;
     this.totalTreesPlanted = 0;
+    this.won = false;
+    this.settings = {
+      buyMode: "click",   // click | hold | continuous
+      plantMode: "click"  // click | hold | continuous
+    };
   }
 
   spendCoins(amount) {
@@ -27,7 +33,10 @@ class Player {
       selectedTool: this.selectedTool,
       selectedSpecies: this.selectedSpecies,
       selectedAnimal: this.selectedAnimal,
-      totalTreesPlanted: this.totalTreesPlanted
+      selectedFish: this.selectedFish,
+      totalTreesPlanted: this.totalTreesPlanted,
+      won: this.won,
+      settings: this.settings
     };
   }
 
@@ -38,6 +47,9 @@ class Player {
     this.selectedTool = data.selectedTool || "plant";
     this.selectedSpecies = data.selectedSpecies || "common";
     this.selectedAnimal = data.selectedAnimal || null;
+    this.selectedFish = data.selectedFish || null;
     this.totalTreesPlanted = data.totalTreesPlanted ?? 0;
+    this.won = Boolean(data.won);
+    this.settings = { buyMode: "click", plantMode: "click", ...(data.settings || {}) };
   }
 }

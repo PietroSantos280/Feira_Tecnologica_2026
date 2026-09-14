@@ -15,15 +15,16 @@ class SaveSystem {
 
   snapshot() {
     return {
-      version: 1,
+      version: 3,
       savedAt: Date.now(),
       player: this.game.player.serialize(),
       world: this.game.world.serialize(),
       climate: this.game.climate.serialize(),
       missions: this.game.missions.serialize(),
       achievements: this.game.achievements.serialize(),
-      animals: this.game.animals.serialize()
-
+      animals: this.game.animals.serialize(),
+      fish: this.game.fish.serialize(),
+      events: this.game.events.serialize()
     };
   }
 
@@ -51,6 +52,8 @@ class SaveSystem {
       this.game.missions.deserialize(data.missions);
       this.game.achievements.deserialize(data.achievements);
       this.game.animals.deserialize(data.animals);
+      this.game.fish.deserialize(data.fish);
+      this.game.events.deserialize(data.events);
       return true;
     } catch (error) {
       console.error("Falha ao carregar save:", error);
@@ -77,6 +80,9 @@ class SaveSystem {
       this.game.climate.deserialize(data.climate);
       this.game.missions.deserialize(data.missions);
       this.game.achievements.deserialize(data.achievements);
+      this.game.animals.deserialize(data.animals);
+      if (data.fish) this.game.fish.deserialize(data.fish);
+      if (data.events) this.game.events.deserialize(data.events);
       this.save();
       this.game.ui.showToast("Save importado", "O mundo restaurado está pronto.");
       this.game.ui.refresh();

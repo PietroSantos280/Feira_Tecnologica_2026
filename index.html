@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/ui.css">
   <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
   <link rel="shortcut icon" href="img/favicon.jogo.png" type="image/x-icon">
 </head>
 <body>
@@ -29,6 +30,8 @@
       </div>
 
       <div class="top-actions">
+        <button class="icon-button" id="mapsButton" title="Mapas e continentes">🗺️</button>
+        <button class="icon-button" id="settingsButton" title="Configurações · Acessibilidade e controles">⚙</button>
         <button class="icon-button" id="saveButton" title="Salvar">💾</button>
         <button class="icon-button" id="exportButton" title="Exportar save">⇩</button>
         <label class="icon-button file-button" title="Importar save">⇧<input id="importInput" type="file" accept=".json,application/json"></label>
@@ -45,10 +48,12 @@
 
         <div class="tool-list">
           <button class="tool active" data-tool="plant"><span>🌱</span><div><b>Plantar</b><small>Plante uma semente</small></div></button>
+          <button class="tool" data-tool="grass"><span>🍃</span><div><b>Plantar grama</b><small>Cobrir solo · 3 moedas</small></div></button>
           <button class="tool" data-tool="inspect"><span>🔎</span><div><b>Analisar</b><small>Ver o estado do solo</small></div></button>
           <button class="tool" data-tool="remove"><span>✋</span><div><b>Remover</b><small>Retirar uma árvore</small></div></button>
-          <button class="tool" data-tool="river"><span>🌊</span><div><b>Criar rio</b><small>Abrir um rio · 50 moedas</small></div></button>
+          <button class="tool" data-tool="river"><span>🌊</span><div><b>Rio</b><small>Criar/remover · 50 moedas</small></div></button>
           <button class="tool" data-tool="animal"><span>🐺</span><div><b>Soltar animal</b><small>Use um item comprado</small></div></button>
+          <button class="tool" data-tool="fish"><span>🐟</span><div><b>Soltar peixe</b><small>Somente dentro da água</small></div></button>
         </div>
 
         <div class="side-section">
@@ -58,6 +63,8 @@
             <div class="progress"><i id="planetProgress"></i></div>
             <p id="planetStage">Terra devastada</p>
           </div>
+          <div class="level-line" style="margin-top:8px;"><span>Área recuperada</span><strong id="recoveredMetric">0%</strong></div>
+          <p style="margin:4px 0 0;color:var(--muted);font-size:9px;">Vitória ao atingir 80% de recuperação.</p>
         </div>
 
         <div class="side-section mission-card">
@@ -76,7 +83,15 @@
             <span class="status-dot"></span>
             <span id="worldMessage">O planeta espera pela primeira semente.</span>
           </div>
-          <div class="season-pill">☀️ Verão · Dia <span id="dayValue">1</span></div>
+          <button class="map-chip" id="mapChip" title="Abrir seleção de mapas">🗺️ América</button>
+          <div class="season-block">
+            <div class="season-pill" id="seasonPill">☀️ Verão · Dia 1</div>
+            <small id="nextSeasonText">Próxima estação em 5 dias.</small>
+          </div>
+        </div>
+        <div class="season-effects-row">
+          <span id="seasonEffects">Ambiente mais seco, com maior risco de secas.</span>
+          <span id="eventBanner" class="event-banner hidden"></span>
         </div>
 
         <div class="canvas-shell">
@@ -109,7 +124,7 @@
         </section>
 
         <section class="shop-section">
-          <div class="section-heading">Loja de sementes</div>
+          <div class="section-heading">Loja</div>
           <button class="buy-button wood-sale" id="sellWoodButton">Vender madeira · 5 moedas/un.</button>
           <div id="shopList"></div>
         </section>
@@ -131,6 +146,62 @@
     </footer>
   </div>
 
+  <div class="modal-overlay hidden" id="mapsOverlay">
+    <div class="modal-card maps-modal">
+      <div class="modal-title">
+        <span>🗺️ Continentes e mapas</span>
+        <button class="icon-button" id="mapsCloseButton">✕</button>
+      </div>
+      <p class="maps-intro">Escolha a região que deseja explorar. Novos continentes já estão preparados para futuras atualizações.</p>
+      <div class="map-grid" id="mapList"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay hidden" id="settingsOverlay">
+    <div class="modal-card">
+      <div class="modal-title">
+        <span>Configurações · Acessibilidade e Controles</span>
+        <button class="icon-button" id="settingsCloseButton">✕</button>
+      </div>
+
+      <div class="modal-section">
+        <div class="section-heading">🖱️ Modo de compra</div>
+        <label class="radio-option">
+          <input type="radio" name="buyMode" value="click"> Clique para comprar — cada clique compra 1 unidade.
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="buyMode" value="hold"> Segurar para comprar — compra automática enquanto segura.
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="buyMode" value="continuous"> Compra contínua — compra rapidamente enquanto houver moedas.
+        </label>
+      </div>
+
+      <div class="modal-section">
+        <div class="section-heading">🌱 Modo de plantio</div>
+        <label class="radio-option">
+          <input type="radio" name="plantMode" value="click"> Clique para plantar — cada clique planta 1 unidade.
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="plantMode" value="hold"> Segurar para plantar — planta continuamente sobre a área.
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="plantMode" value="continuous"> Plantar continuamente — passe o mouse segurando para plantar em várias áreas.
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay hidden" id="victoryOverlay">
+    <div class="modal-card victory-card">
+      <div class="modal-title">
+        <span>🌍 Planeta recuperado!</span>
+      </div>
+      <p id="victoryDetail">80% da área foi recuperada.</p>
+      <button class="buy-button" id="victoryCloseButton">Continuar cuidando do planeta</button>
+    </div>
+  </div>
+
   <script src="js/climate.js"></script>
   <script src="js/tree.js"></script>
   <script src="js/world.js"></script>
@@ -142,6 +213,7 @@
   <script src="js/achievements.js"></script>
   <script src="js/events.js"></script>
   <script src="js/animals.js"></script>
+  <script src="js/fish.js"></script>
   <script src="js/research.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/game.js"></script>

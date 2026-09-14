@@ -20,6 +20,7 @@ button, input { font: inherit; }
 
 #app {
   min-height: 100vh;
+  transition: background .8s ease;
   display: grid;
   grid-template-rows: 76px 1fr 28px;
   background:
@@ -73,6 +74,7 @@ button, input { font: inherit; }
 
 .game-layout {
   min-height: 0;
+  height: 100%;
   display: grid;
   grid-template-columns: 218px minmax(480px, 1fr) 292px;
   gap: 10px;
@@ -86,7 +88,7 @@ button, input { font: inherit; }
   border-radius: 14px;
   box-shadow: var(--shadow);
 }
-.world-wrap { min-width: 0; min-height: 0; display: grid; grid-template-rows: 38px 1fr; gap: 7px; }
+.world-wrap { min-width: 0; min-height: 0; width: 100%; height: min(620px, calc(100vh - 125px)); align-self: start; overflow: hidden; display: grid; grid-template-rows: 38px 22px minmax(0, 1fr); gap: 7px; }
 .world-toolbar {
   display: flex; justify-content: space-between; align-items: center;
   padding: 0 7px 0 12px; color: var(--muted); font-size: 11px;
@@ -96,11 +98,11 @@ button, input { font: inherit; }
 .season-pill { padding: 7px 10px; border: 1px solid var(--border); border-radius: 999px; background: rgba(20,34,30,.7); }
 
 .canvas-shell {
-  min-height: 0; position: relative; overflow: hidden;
+  min-width: 0; min-height: 0; height: 100%; position: relative; overflow: hidden;
   border: 1px solid var(--border); border-radius: 14px;
   background: #20221d; box-shadow: var(--shadow);
 }
-#worldCanvas { width: 100%; height: 100%; display: block; image-rendering: auto; cursor: crosshair; }
+#worldCanvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; image-rendering: auto; cursor: crosshair; }
 .canvas-hint {
   position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%);
   padding: 9px 13px; border-radius: 999px; color: #dfece2; font-size: 11px;
@@ -194,7 +196,212 @@ button, input { font: inherit; }
   #app { min-height: 100vh; grid-template-rows: auto auto 28px; }
   .topbar { grid-template-columns: 1fr auto; }
   .stats { grid-column: 1 / -1; order: 3; overflow-x: auto; justify-content: flex-start; }
-  .game-layout { grid-template-columns: 1fr; }
+  .game-layout { grid-template-columns: 1fr; height: auto; }
   .left-panel { display: none; }
-  .world-wrap { min-height: 520px; }
+  .world-wrap { min-height: 0; height: 520px; }
+}
+
+/* Tingimento sutil de fundo conforme a estação do ano */
+body[data-season="spring"] #app { background: radial-gradient(circle at 50% -10%, rgba(120,196,120,.14), transparent 40%), #0a1110; }
+body[data-season="summer"] #app { background: radial-gradient(circle at 50% -10%, rgba(228,196,106,.10), transparent 40%), #0a1110; }
+body[data-season="autumn"] #app { background: radial-gradient(circle at 50% -10%, rgba(201,129,47,.13), transparent 40%), #0a1110; }
+body[data-season="winter"] #app { background: radial-gradient(circle at 50% -10%, rgba(150,190,210,.14), transparent 40%), #0a1110; }
+
+
+/* Camada visual da expansão dos mapas */
+.map-chip {
+  border: 1px solid rgba(110,209,140,.25);
+  border-radius: 999px;
+  padding: 7px 11px;
+  color: #dcebe0;
+  background: rgba(20,34,30,.78);
+  cursor: pointer;
+  font-size: 10px;
+  white-space: nowrap;
+  transition: .18s ease;
+}
+.map-chip:hover { transform: translateY(-1px); border-color: rgba(110,209,140,.5); }
+
+.maps-modal { width: min(720px, calc(100vw - 28px)); }
+.maps-intro { margin: 0 0 15px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.map-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; }
+.map-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 9px;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: #111d19;
+  color: var(--text);
+  cursor: pointer;
+  transition: .18s ease;
+}
+.map-card:hover:not(:disabled) { transform: translateY(-2px); border-color: rgba(110,209,140,.38); background: #14231e; }
+.map-card.selected { border-color: rgba(110,209,140,.68); box-shadow: 0 0 0 1px rgba(110,209,140,.12), 0 10px 28px rgba(0,0,0,.18); }
+.map-card:disabled { cursor: not-allowed; opacity: .66; }
+.map-preview {
+  position: relative;
+  display: block;
+  height: 108px;
+  overflow: hidden;
+  border-radius: 9px;
+  background:
+    radial-gradient(circle at 72% 22%, rgba(220,244,235,.14), transparent 18%),
+    linear-gradient(145deg,#153d4b,#0a2633);
+}
+.map-preview-land {
+  position: absolute;
+  inset: 12% 25% 8% 12%;
+  clip-path: polygon(12% 4%, 47% 0, 68% 13%, 62% 29%, 49% 36%, 43% 48%, 50% 56%, 57% 69%, 48% 87%, 34% 100%, 22% 91%, 24% 72%, 30% 58%, 23% 47%, 13% 39%, 6% 24%);
+  background: linear-gradient(145deg,#4c7656,#2c5b45);
+  box-shadow: inset 0 0 20px rgba(205,238,187,.08);
+}
+.map-preview.americas::after {
+  content: "";
+  position: absolute;
+  width: 34%;
+  height: 24%;
+  left: 39%;
+  top: 34%;
+  border-radius: 50%;
+  background: rgba(73,136,91,.55);
+  transform: rotate(-15deg);
+}
+.map-preview.locked::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(5,10,9,.28);
+}
+.map-preview.locked .map-preview-land { filter: grayscale(.9); opacity: .42; }
+.lock-badge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(7,14,12,.78);
+  border: 1px solid rgba(255,255,255,.12);
+  font-size: 17px;
+}
+.map-card-content { display: grid; gap: 3px; }
+.map-card-content strong { font-size: 12px; }
+.map-card-content small { color: var(--green); font-size: 9px; text-transform: uppercase; letter-spacing: .6px; }
+.map-card.locked .map-card-content small { color: #9a9990; }
+.map-card-content em { color: var(--muted); font-size: 8px; line-height: 1.4; font-style: normal; }
+
+.event-banner {
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: rgba(26,42,34,.88);
+  border: 1px solid rgba(255,255,255,.09);
+}
+.season-effects-row {
+  min-height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 8px 3px 12px;
+  color: var(--muted);
+  font-size: 9px;
+}
+.canvas-shell {
+  background: linear-gradient(145deg,#102d3b,#0a202c);
+  box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,.025);
+}
+@media (max-width: 760px) {
+  .map-grid { grid-template-columns: 1fr; }
+  .map-preview { height: 78px; }
+  .map-chip { max-width: 48vw; overflow: hidden; text-overflow: ellipsis; }
+}
+
+/* Layout final: o mapa usa toda a altura disponível e somente a coluna direita rola. */
+@media (min-width: 761px) {
+  body { overflow: hidden; }
+  #app { height: 100vh; min-height: 0; grid-template-rows: 76px minmax(0, 1fr) 28px; }
+  .game-layout {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    grid-template-columns: 218px minmax(0, 1fr) 292px;
+  }
+  .left-panel { overflow: hidden; }
+  .world-wrap {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .canvas-shell { min-height: 0; height: 100%; }
+  .right-panel {
+    min-height: 0;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+  }
+}
+
+@media (max-width: 760px) {
+  body { overflow: hidden; }
+  #app { height: 100dvh; min-height: 0; }
+  .game-layout { min-height: 0; overflow: hidden; }
+  .world-wrap { min-height: 0; }
+  .canvas-shell { min-height: 0; }
+  .right-panel {
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+  }
+}
+
+/* Mobile: rolagem da página inteira, sem scroll interno dos painéis. */
+@media (max-width: 760px) {
+  html, body {
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto !important;
+  }
+
+  body { overflow-y: auto !important; }
+
+  #app {
+    height: auto !important;
+    min-height: 100vh;
+  }
+
+  .game-layout {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .world-wrap {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .canvas-shell {
+    height: min(58vw, 440px) !important;
+    min-height: 280px !important;
+    max-height: 440px;
+  }
+
+  .left-panel,
+  .right-panel {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
 }

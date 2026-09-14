@@ -11,12 +11,13 @@ class Game {
     this.canvas = document.getElementById("worldCanvas");
     this.world = new World();
     this.player = new Player();
-    this.climate = new ClimateSystem();
+    this.climate = new ClimateSystem(this);
     this.shop = new ShopSystem(this);
     this.missions = new MissionSystem(this);
     this.achievements = new AchievementSystem(this);
     this.events = new EventSystem(this);
     this.animals = new AnimalSystem(this);
+    this.fish = new FishSystem(this);
     this.research = new ResearchSystem(this);
     this.audio = new AudioManager();
     this.ui = new UIManager(this);
@@ -28,10 +29,22 @@ class Game {
     this.offlineSeconds = 0;
     this.loaded = false;
 
+    this.paintSession = null;
+
     this.bindCanvas();
     this.load();
+    this.canvasShell = this.canvas.closest(".canvas-shell");
     this.resizeCanvas();
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this._resizeFrame) cancelAnimationFrame(this._resizeFrame);
+      this._resizeFrame = requestAnimationFrame(() => {
+        this._resizeFrame = null;
+        this.resizeCanvas();
+      });
+    });
+    if (this.canvasShell) this.resizeObserver.observe(this.canvasShell);
     window.addEventListener("resize", () => this.resizeCanvas());
+    window.addEventListener("orientationchange", () => setTimeout(() => this.resizeCanvas(), 100));
     this.ui.refresh();
     requestAnimationFrame(time => this.loop(time));
   }
@@ -41,98 +54,161 @@ class Game {
       const tile = this.getTileFromPointer(event);
       for (const row of this.world.tiles) for (const t of row) t.hover = false;
       if (tile) tile.hover = true;
+
+      if (this.paintSession && tile) {
+        this.paintSession.tile = tile;
+        if (this.paintSession.mode === "continuous") {
+          this.attemptAction(tile, { silent: true, skipSave: true });
+        }
+      }
     });
 
     this.canvas.addEventListener("pointerleave", () => {
       for (const row of this.world.tiles) for (const t of row) t.hover = false;
     });
 
-    this.canvas.addEventListener("pointerdown", event => this.handleCanvasClick(event));
+    this.canvas.addEventListener("pointerdown", event => this.startCanvasAction(event));
+    window.addEventListener("pointerup", () => this.endCanvasAction());
+    window.addEventListener("blur", () => this.endCanvasAction());
   }
 
   getTileFromPointer(event) {
     const rect = this.canvas.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width * this.canvas.width;
-    const y = (event.clientY - rect.top) / rect.height * this.canvas.height;
-    const tx = Math.floor(x / (this.canvas.width / this.world.cols));
-    const ty = Math.floor(y / (this.canvas.height / this.world.rows));
+    if (!rect.width || !rect.height) return null;
+    const render = this.ui?.getWorldRenderMetrics?.() || {
+      scaleX: this.canvas.width / (this.world.cols * WORLD_CONFIG.tileSize),
+      scaleY: this.canvas.height / (this.world.rows * WORLD_CONFIG.tileSize),
+      offsetX: 0, offsetY: 0
+    };
+    const px = (event.clientX - rect.left) / rect.width * this.canvas.width;
+    const py = (event.clientY - rect.top) / rect.height * this.canvas.height;
+    const logicalX = (px - render.offsetX) / render.scaleX;
+    const logicalY = (py - render.offsetY) / render.scaleY;
+    const tx = Math.floor(logicalX / WORLD_CONFIG.tileSize);
+    const ty = Math.floor(logicalY / WORLD_CONFIG.tileSize);
     return this.world.get(tx, ty);
   }
 
-  handleCanvasClick(event) {
+  startCanvasAction(event) {
     const tile = this.getTileFromPointer(event);
     if (!tile) return;
 
     this.ui.selectTile(tile);
+    const changed = this.attemptAction(tile, { silent: false, skipSave: true });
+    if (changed) this.save.save();
 
-    const tool = this.player.selectedTool;
-    if (tool === "river") {
-      if (!tile.inPlanet) {
-        this.ui.showToast("Fora do planeta", "Escolha uma área dentro da esfera.");
-        return;
-      }
-      if (tile.water > 0.8) {
-        this.ui.showToast("Rio já criado", "Escolha outro tile para abrir um curso d'água.");
-        return;
-      }
-      if (!this.player.spendCoins(50)) {
-        this.ui.showToast("Moedas insuficientes", "Criar um rio custa 50 moedas.");
-        return;
-      }
-      tile.water = 1;
-      tile.humidity = Math.min(100, tile.humidity + 20);
-      this.ui.showToast("Rio criado", "A água começa a devolver vida ao terreno.");
+    const mode = this.player.settings.plantMode;
+    if (mode === "click") return;
+
+    const intervalMs = mode === "continuous" ? 110 : 350;
+    this.paintSession = { mode, tile, changedAny: changed, interval: null };
+    this.paintSession.interval = setInterval(() => {
+      const t = this.paintSession && this.paintSession.tile;
+      if (!t) return;
+      const ok = this.attemptAction(t, { silent: true, skipSave: true });
+      if (ok) this.paintSession.changedAny = true;
+    }, intervalMs);
+  }
+
+  endCanvasAction() {
+    if (!this.paintSession) return;
+    clearInterval(this.paintSession.interval);
+    if (this.paintSession.changedAny) {
       this.ui.refresh();
       this.save.save();
-      return;
     }
-    if (tool === "animal") {
-      if (!this.player.selectedAnimal) {
-        this.ui.showToast("Escolha um animal", "Compre uma galinha, cavalo ou vaca na loja.");
-        return;
+    this.paintSession = null;
+  }
+
+  // Executa a ferramenta selecionada em um tile, validando cada regra antes de alterar o mapa.
+  // Retorna true quando algo mudou no mundo.
+  attemptAction(tile, { silent = false, skipSave = false } = {}) {
+    if (!tile) return false;
+    const notify = (title, message) => { if (!silent) this.ui.showToast(title, message); };
+    const finish = () => {
+      if (!silent) { this.ui.refresh(); }
+      if (!skipSave) this.save.save();
+      return true;
+    };
+
+    const tool = this.player.selectedTool;
+
+    if (tool === "grass") {
+      if (!tile.inPlanet) { notify("Fora do planeta", "Escolha uma área dentro da esfera."); return false; }
+      if (tile.water >= 0.5) { notify("Local inválido", "Não é possível cobrir água com grama."); return false; }
+      if (tile.grass) { notify("Já tem grama", "Este tile já está coberto por grama."); return false; }
+      if (this.player.coins < 3) { notify("Moedas insuficientes", "Cobrir com grama custa 3 moedas."); return false; }
+      if (!this.world.placeGrass(tile.x, tile.y)) return false;
+      this.player.spendCoins(3);
+      notify("Solo coberto", "Uma nova área de grama nasceu.");
+      return finish();
+    }
+
+    if (tool === "river") {
+      if (!tile.inPlanet) { notify("Fora do planeta", "Escolha uma área dentro da esfera."); return false; }
+      if (tile.water >= 0.5) {
+        if (!this.world.removeRiver(tile.x, tile.y)) return false;
+        notify("Rio removido", "A água deu lugar ao terreno novamente.");
+        return finish();
       }
+      if (tile.tree) { notify("Local ocupado", "Não é possível criar um rio sobre uma árvore."); return false; }
+      if (tile.animal) { notify("Local ocupado", "Não é possível criar um rio sobre um animal."); return false; }
+      if (!this.player.spendCoins(50)) { notify("Moedas insuficientes", "Criar um rio custa 50 moedas."); return false; }
+      if (!this.world.createRiver(tile.x, tile.y)) { this.player.addCoins(50); return false; }
+      notify("Rio criado", "A água começa a devolver vida ao terreno.");
+      return finish();
+    }
+
+    if (tool === "fish") {
+      if (!this.player.selectedFish) { notify("Escolha um peixe", "Compre trutas ou carpas na loja."); return false; }
+      if (!this.fish.canPlace(tile)) {
+        notify("Local inválido", tile.water < 0.5
+          ? "Peixes só podem ser colocados dentro da água."
+          : "Já existe um peixe nesse trecho do rio.");
+        return false;
+      }
+      this.fish.place(tile, this.player.selectedFish);
+      this.player.selectedFish = null;
+      notify("Peixe solto", "O novo habitante agora nada livremente.");
+      return finish();
+    }
+
+    if (tool === "animal") {
+      if (!this.player.selectedAnimal) { notify("Escolha um animal", "Compre uma galinha, cavalo ou vaca na loja."); return false; }
       if (!this.animals.canPlace(tile)) {
-        this.ui.showToast("Local inválido", "Animais exigem 5 árvores e não podem ficar em rios.");
-        return;
+        notify("Local inválido", "Animais exigem 5 árvores, área seca e sem outro animal.");
+        return false;
       }
       this.animals.place(tile, this.player.selectedAnimal);
       this.player.selectedAnimal = null;
-      this.ui.showToast("Animal adicionado", "O novo habitante agora faz parte do planeta.");
-      this.ui.refresh();
-      this.save.save();
-      return;
+      notify("Animal adicionado", "O novo habitante agora faz parte do planeta.");
+      return finish();
     }
+
     if (tool === "plant") {
-      if (tile.tree || tile.water > 0.8 || !tile.inPlanet) {
-        this.ui.showToast("Tile ocupado", "Escolha um espaço sem árvore.");
-        return;
-      }
-      if (this.player.seeds <= 0) {
-        this.ui.showToast("Sem sementes", "Compre mais sementes na loja.");
-        return;
-      }
+      if (!tile.inPlanet) { notify("Fora do planeta", "Escolha uma área dentro da esfera."); return false; }
+      if (tile.tree) { notify("Tile ocupado", "Escolha um espaço sem árvore."); return false; }
+      if (tile.water >= 0.8) { notify("Tile ocupado", "Não é possível plantar sobre um rio."); return false; }
+      if (this.player.seeds <= 0) { notify("Sem sementes", "Compre mais sementes na loja."); return false; }
+      if (this.player.coins < 5) { notify("Moedas insuficientes", "Cada plantio custa 5 moedas."); return false; }
       const species = this.player.selectedSpecies || "common";
-      if (this.player.coins < 5) {
-        this.ui.showToast("Moedas insuficientes", "Cada plantio custa 5 moedas.");
-        return;
-      }
-      if (this.world.plant(tile.x, tile.y, species)) {
-        this.player.spendCoins(5);
-        this.player.seeds -= 1;
-        this.player.totalTreesPlanted += 1;
-        this.audio.playPlant();
-        this.ui.showToast("Um novo começo", `Uma ${TREE_SPECIES[species].name.toLowerCase()} foi plantada.`);
-        this.ui.refresh();
-        this.save.save();
-      }
-    } else if (tool === "remove") {
-      if (this.world.removeTree(tile.x, tile.y)) {
-        this.player.wood += 1;
-        this.ui.showToast("Árvore removida", "+1 madeira");
-        this.ui.refresh();
-        this.save.save();
-      }
+      if (!this.world.plant(tile.x, tile.y, species)) return false;
+      this.player.spendCoins(5);
+      this.player.seeds -= 1;
+      this.player.totalTreesPlanted += 1;
+      this.audio.playPlant();
+      notify("Um novo começo", `Uma ${TREE_SPECIES[species].name.toLowerCase()} foi plantada.`);
+      return finish();
     }
+
+    if (tool === "remove") {
+      if (!this.world.removeTree(tile.x, tile.y)) return false;
+      this.player.wood += 1;
+      notify("Árvore removida", "+1 madeira");
+      return finish();
+    }
+
+    return false;
   }
 
   load() {
@@ -172,10 +248,19 @@ class Game {
   }
 
   resizeCanvas() {
-    const rect = this.canvas.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    this.canvas.width = Math.max(1, Math.floor(rect.width * dpr));
-    this.canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+    const target = this.canvasShell || this.canvas;
+    const rect = target.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+    const width = Math.max(1, Math.round(rect.width * dpr));
+    const height = Math.max(1, Math.round(rect.height * dpr));
+
+    // O tamanho interno acompanha somente o tamanho real do painel.
+    // Atualizações da interface (como plantar a primeira semente) não devem
+    // provocar zoom ou alteração do enquadramento do mundo.
+    if (this.canvas.width !== width) this.canvas.width = width;
+    if (this.canvas.height !== height) this.canvas.height = height;
   }
 
   loop(time) {
@@ -188,19 +273,35 @@ class Game {
   }
 
   update(dt) {
-    this.world.update(dt, this.climate);
-    this.climate.update(dt);
-    this.economy.update(dt);
     this.events.update(dt);
+    this.climate.update(dt);
+
+    const growthMult = this.climate.getGrowthMultiplier();
+    const vegMult = this.climate.getVegetationMultiplier();
+    this.world.update(dt, growthMult, vegMult);
+
+    this.economy.update(dt);
     this.animals.update(dt);
+    this.fish.update(dt);
     this.missions.update();
     this.achievements.update();
     this.save.update(dt);
+    this.checkWinCondition();
 
     this.uiAccumulator += dt;
     if (this.uiAccumulator >= .25) {
       this.uiAccumulator = 0;
       this.ui.refresh();
+    }
+  }
+
+  checkWinCondition() {
+    if (this.player.won) return;
+    const stats = this.world.getStats();
+    if (stats.recoveredPercent >= 80) {
+      this.player.won = true;
+      this.ui.showVictory(stats);
+      this.save.save();
     }
   }
 }
