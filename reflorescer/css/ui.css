@@ -75,3 +75,42 @@
 .victory-card { text-align: center; }
 .victory-card p { color: var(--muted); font-size: 12px; margin: 6px 0 16px; }
 .victory-card .buy-button { width: 100%; padding: 10px; }
+
+
+.achievement-overlay {
+  position: fixed; inset: 0; z-index: 70;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding-top: 86px; pointer-events: none;
+}
+.achievement-overlay.hidden { display: none; }
+.achievement-card {
+  width: min(430px, calc(100vw - 28px));
+  display: flex; align-items: center; gap: 13px;
+  padding: 14px 17px;
+  border: 1px solid rgba(110, 209, 140, .55);
+  border-radius: 14px;
+  background: rgba(9, 20, 15, .96);
+  box-shadow: 0 18px 50px rgba(0,0,0,.38), 0 0 0 1px rgba(110,209,140,.08);
+  animation: achievement-in .35s ease-out both;
+}
+.achievement-icon {
+  width: 48px; height: 48px; flex: 0 0 48px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  background: rgba(110,209,140,.12);
+  border: 1px solid rgba(110,209,140,.24);
+  font-size: 24px;
+}
+.achievement-copy { display: grid; gap: 3px; min-width: 0; }
+.achievement-copy small { color: var(--green); font-size: 8px; font-weight: 800; letter-spacing: 1px; }
+.achievement-copy strong { color: var(--text); font-size: 15px; }
+.achievement-copy span { color: var(--muted); font-size: 10px; line-height: 1.4; }
+@keyframes achievement-in {
+  from { opacity: 0; transform: translateY(-18px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (max-width: 700px) {
+  .achievement-overlay { padding-top: 64px; }
+  .achievement-card { padding: 12px 14px; }
+  .achievement-icon { width: 42px; height: 42px; flex-basis: 42px; font-size: 21px; }
+}

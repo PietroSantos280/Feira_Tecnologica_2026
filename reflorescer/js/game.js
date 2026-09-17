@@ -206,14 +206,16 @@ class Game {
         return finish();
       }
       if (tile.tree) { notify("Local ocupado", "Não é possível criar um rio sobre uma árvore."); return false; }
+      if (tile.grass) { notify("Local ocupado", "Não é possível criar um rio sobre a grama."); return false; }
       if (tile.animal) { notify("Local ocupado", "Não é possível criar um rio sobre um animal."); return false; }
+      if (tile.fish) { notify("Local ocupado", "Não é possível criar um rio sobre um peixe."); return false; }
       if (!this.player.spendCoins(50)) { notify("Moedas insuficientes", "Criar um rio custa 50 moedas."); return false; }
       if (!this.world.createRiver(tile.x, tile.y)) { this.player.addCoins(50); return false; }
       notify("Rio criado", "A água começa a devolver vida ao terreno.");
       return finish();
     }
 
-    if (tool === "fish") {
+    if (tool === "fishPlace") {
       if (!this.player.selectedFish) { notify("Escolha um peixe", "Compre trutas ou carpas na loja."); return false; }
       if (!this.fish.canPlace(tile)) {
         notify("Local inválido", tile.water < 0.5
@@ -227,7 +229,7 @@ class Game {
       return finish();
     }
 
-    if (tool === "animal") {
+    if (tool === "animalPlace") {
       if (!this.player.selectedAnimal) { notify("Escolha um animal", "Compre uma galinha, cavalo ou vaca na loja."); return false; }
       if (!this.animals.canPlace(tile)) {
         notify("Local inválido", "Animais exigem 5 árvores, área seca e sem outro animal.");
@@ -236,6 +238,24 @@ class Game {
       this.animals.place(tile, this.player.selectedAnimal);
       this.player.selectedAnimal = null;
       notify("Animal adicionado", "O novo habitante agora faz parte do planeta.");
+      return finish();
+    }
+
+    if (tool === "fish") {
+      if (!this.fish.remove(tile)) {
+        notify("Nenhum peixe", "Clique em um tile que tenha um peixe para removê-lo.");
+        return false;
+      }
+      notify("Peixe removido", "O peixe foi retirado do mapa.");
+      return finish();
+    }
+
+    if (tool === "animal") {
+      if (!this.animals.remove(tile)) {
+        notify("Nenhum animal", "Clique em um tile que tenha um animal para removê-lo.");
+        return false;
+      }
+      notify("Animal removido", "O animal foi retirado do mapa.");
       return finish();
     }
 
@@ -317,6 +337,62 @@ class Game {
     if (this.canvas.height !== height) this.canvas.height = height;
   }
 
+  openCustomWorld() {
+    const available = Object.values(this.player.mapCompleted).filter(Boolean).length;
+    if (available < 3) return;
+    const overlay = document.getElementById("customWorldOverlay");
+    if (overlay) overlay.classList.remove("hidden");
+  }
+
+  createCustomWorld(areaCount) {
+    const available = Object.values(this.player.mapCompleted).filter(Boolean).length;
+    const count = Math.max(1, Math.min(available, Number(areaCount) || 1));
+    if (available < 3) return false;
+    const ok = this.world.createCustomWorld(count);
+    if (!ok) return false;
+    this.player.coins = 20;
+    this.player.seeds = 1;
+    this.player.wood = 0;
+    this.player.selectedAnimal = null;
+    this.player.selectedFish = null;
+    this.player.selectedTool = "plant";
+    this.climate.day = 1;
+    this.climate.elapsed = 0;
+    this.climate.seasonIndex = 0;
+    document.getElementById("customWorldOverlay")?.classList.add("hidden");
+    document.getElementById("mapsOverlay")?.classList.add("hidden");
+    this.ui.onSeasonChange();
+    this.ui.refresh();
+    this.save.save();
+    this.ui.showToast("Mundo personalizado criado", `${count} área(s) de plantio disponível(is).`);
+    return true;
+  }
+
+  switchMap(id) {
+    const oldId = this.world.continentId;
+    this.updateMapProgress();
+    const ok = this.world.switchContinent(id, {
+      ...this.player.mapProgress,
+      customAreas: Object.values(this.player.mapCompleted).filter(Boolean).length
+    });
+    if (!ok) return false;
+    if (id !== oldId) {
+      this.player.coins = 20;
+      this.player.seeds = 1;
+      this.player.wood = 0;
+      this.player.selectedAnimal = null;
+      this.player.selectedFish = null;
+      this.player.selectedTool = "plant";
+      this.climate.day = 1;
+      this.climate.elapsed = 0;
+      this.climate.seasonIndex = 0;
+      this.ui.onSeasonChange();
+    }
+    this.ui.refresh();
+    this.save.save();
+    return true;
+  }
+
   loop(time) {
     const dt = Math.min((time - this.lastTime) / 1000, .25);
     this.lastTime = time;
@@ -340,7 +416,7 @@ class Game {
     this.missions.update();
     this.achievements.update();
     this.save.update(dt);
-    this.checkWinCondition();
+    this.updateMapProgress();
 
     this.uiAccumulator += dt;
     if (this.uiAccumulator >= .25) {
@@ -349,14 +425,38 @@ class Game {
     }
   }
 
-  checkWinCondition() {
-    if (this.player.won) return;
+  updateMapProgress() {
+    const id = this.world.continentId;
+    if (!Object.prototype.hasOwnProperty.call(this.player.mapProgress, id)) return;
     const stats = this.world.getStats();
-    if (stats.recoveredPercent >= 80) {
-      this.player.won = true;
-      this.ui.showVictory(stats);
-      this.save.save();
+    const previous = Number(this.player.mapProgress[id]) || 0;
+    // O progresso acompanha o estado atual do mapa. Ele não fica travado em
+    // 100% por causa de um valor salvo anteriormente: ao remover elementos,
+    // a porcentagem também pode diminuir de forma coerente.
+    const current = Math.min(100, Math.max(0, stats.recoveredPercent));
+    this.player.mapProgress[id] = current;
+
+    if (previous < 80 && current >= 80) {
+      if (id === "americas") {
+        const achievement = this.achievements.items.find(item => item.id === "map_americas_unlock");
+        if (achievement && !achievement.done) {
+          achievement.done = true;
+          this.ui.showAchievementCard("Novo horizonte", "Europa e África foram desbloqueados.");
+        }
+      }
+      if (id === "continent2") {
+        const achievement = this.achievements.items.find(item => item.id === "map_continent2_unlock");
+        if (achievement && !achievement.done) {
+          achievement.done = true;
+          this.ui.showAchievementCard("Um novo continente", "Ásia e Oceania foram desbloqueados.");
+        }
+      }
     }
+    if (current >= 100 && !this.player.mapCompleted[id]) {
+      this.player.mapCompleted[id] = true;
+      this.achievements.unlockMapCompletion(id);
+    }
+    this.player.customWorldUnlocked = Object.values(this.player.mapCompleted).filter(Boolean).length === 3;
   }
 }
 

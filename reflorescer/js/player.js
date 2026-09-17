@@ -9,6 +9,9 @@ class Player {
     this.selectedFish = null;
     this.totalTreesPlanted = 0;
     this.won = false;
+    this.mapProgress = { americas: 0, continent2: 0, continent3: 0 };
+    this.mapCompleted = { americas: false, continent2: false, continent3: false };
+    this.customWorldUnlocked = false;
     this.settings = {
       buyMode: "click",   // click | hold | continuous
       plantMode: "click"  // click | hold | continuous
@@ -36,6 +39,9 @@ class Player {
       selectedFish: this.selectedFish,
       totalTreesPlanted: this.totalTreesPlanted,
       won: this.won,
+      mapProgress: this.mapProgress,
+      mapCompleted: this.mapCompleted,
+      customWorldUnlocked: this.customWorldUnlocked,
       settings: this.settings
     };
   }
@@ -50,6 +56,9 @@ class Player {
     this.selectedFish = data.selectedFish || null;
     this.totalTreesPlanted = data.totalTreesPlanted ?? 0;
     this.won = Boolean(data.won);
+    this.mapProgress = { americas: 0, continent2: 0, continent3: 0, ...(data.mapProgress || {}) };
+    this.mapCompleted = { americas: false, continent2: false, continent3: false, ...(data.mapCompleted || {}) };
+    this.customWorldUnlocked = Boolean(data.customWorldUnlocked);
     this.settings = { buyMode: "click", plantMode: "click", ...(data.settings || {}) };
   }
 }

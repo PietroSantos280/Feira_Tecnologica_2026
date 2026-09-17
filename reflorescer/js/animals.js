@@ -23,6 +23,14 @@ class AnimalSystem {
     return true;
   }
 
+  remove(tile) {
+    if (!tile || !tile.animal) return false;
+    const key = `${tile.x},${tile.y}`;
+    this.animals = this.animals.filter(item => `${item.x},${item.y}` !== key);
+    tile.animal = null;
+    return true;
+  }
+
   update(dt) {
     this.incomeTimer += dt;
     if (this.incomeTimer < 30) return;

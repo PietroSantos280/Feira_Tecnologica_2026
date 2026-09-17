@@ -47,13 +47,13 @@
         </div>
 
         <div class="tool-list">
-          <button class="tool active" data-tool="plant"><span>🌱</span><div><b>Plantar</b><small>Plante uma semente</small></div></button>
-          <button class="tool" data-tool="grass"><span>🍃</span><div><b>Plantar grama</b><small>Cobrir solo · 3 moedas</small></div></button>
+          <button class="tool active" data-tool="plant"><span>🌱</span><div><b>Plantar</b><small>5 moedas · recuperação inicial 18%</small></div></button>
+          <button class="tool" data-tool="grass"><span>🍃</span><div><b>Plantar grama</b><small>3 moedas · recuperação inicial 8%</small></div></button>
           <button class="tool" data-tool="inspect"><span>🔎</span><div><b>Analisar</b><small>Ver o estado do solo</small></div></button>
           <button class="tool" data-tool="remove"><span>✋</span><div><b>Remover</b><small>Retirar uma árvore</small></div></button>
-          <button class="tool" data-tool="river"><span>🌊</span><div><b>Rio</b><small>Criar/remover · 50 moedas</small></div></button>
-          <button class="tool" data-tool="animal"><span>🐺</span><div><b>Soltar animal</b><small>Use um item comprado</small></div></button>
-          <button class="tool" data-tool="fish"><span>🐟</span><div><b>Soltar peixe</b><small>Somente dentro da água</small></div></button>
+          <button class="tool" data-tool="river"><span>🌊</span><div><b>Rio</b><small>50 moedas · recuperação inicial 30%</small></div></button>
+          <button class="tool" data-tool="animal"><span>🐺</span><div><b>Remover animal</b><small>Use um item comprado</small></div></button>
+          <button class="tool" data-tool="fish"><span>🐟</span><div><b>Remover peixe</b><small>Somente dentro da água</small></div></button>
         </div>
 
         <div class="side-section">
@@ -64,17 +64,9 @@
             <p id="planetStage">Terra devastada</p>
           </div>
           <div class="level-line" style="margin-top:8px;"><span>Área recuperada</span><strong id="recoveredMetric">0%</strong></div>
-          <p style="margin:4px 0 0;color:var(--muted);font-size:9px;">Vitória ao atingir 80% de recuperação.</p>
+          <p style="margin:4px 0 0;color:var(--muted);font-size:9px;">80% desbloqueia o próximo mapa · 100% conclui este mundo.</p>
         </div>
 
-        <div class="side-section mission-card">
-          <div class="section-heading">Próximo objetivo</div>
-          <div class="mission-icon">🌱</div>
-          <strong id="missionTitle">O primeiro broto</strong>
-          <p id="missionDescription">Faça nascer a primeira árvore.</p>
-          <div class="progress"><i id="missionProgress"></i></div>
-          <small id="missionCounter">0 / 1</small>
-        </div>
       </aside>
 
       <section class="world-wrap">
@@ -83,7 +75,7 @@
             <span class="status-dot"></span>
             <span id="worldMessage">O planeta espera pela primeira semente.</span>
           </div>
-          <button class="map-chip" id="mapChip" title="Abrir seleção de mapas">🗺️ América</button>
+          <button class="map-chip" id="mapChip" title="Abrir seleção de mapas">🗺️ Américas</button>
           <div class="season-block">
             <div class="season-pill" id="seasonPill">☀️ Verão · Dia 1</div>
             <small id="nextSeasonText">Próxima estação em 5 dias.</small>
@@ -188,6 +180,33 @@
         <label class="radio-option">
           <input type="radio" name="plantMode" value="continuous"> Plantar continuamente — passe o mouse segurando para plantar em várias áreas.
         </label>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal-overlay hidden" id="customWorldOverlay">
+    <div class="modal-card custom-world-card">
+      <div class="modal-title">
+        <span>🌎 Criar mundo personalizado</span>
+        <button class="icon-button" id="customWorldCloseButton">✕</button>
+      </div>
+      <p class="maps-intro">Você completou os 3 mapas. Escolha quantas áreas de plantio o novo mundo terá.</p>
+      <div class="custom-world-options">
+        <button class="buy-button custom-world-option" data-custom-areas="1">1 área</button>
+        <button class="buy-button custom-world-option" data-custom-areas="2">2 áreas</button>
+        <button class="buy-button custom-world-option" data-custom-areas="3">3 áreas</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="achievement-overlay hidden" id="achievementOverlay" role="status" aria-live="polite">
+    <div class="achievement-card">
+      <div class="achievement-icon">🏆</div>
+      <div class="achievement-copy">
+        <small>CONQUISTA DESBLOQUEADA</small>
+        <strong id="achievementTitle">Novo mapa</strong>
+        <span id="achievementMessage">Um novo mapa está disponível.</span>
       </div>
     </div>
   </div>

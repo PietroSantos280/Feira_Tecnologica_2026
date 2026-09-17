@@ -25,7 +25,7 @@ class ShopSystem {
       }
       this.game.player.selectedAnimal = item.animal;
       this.game.player.selectedFish = null;
-      this.game.player.selectedTool = "animal";
+      this.game.player.selectedTool = "animalPlace";
       if (!silent) this.game.ui.showToast("Animal adquirido", `${item.name} pronto para ser colocado fora dos rios.`);
     } else if (item.fish) {
       if (!this.game.world.hasWater()) {
@@ -35,7 +35,7 @@ class ShopSystem {
       }
       this.game.player.selectedFish = item.fish;
       this.game.player.selectedAnimal = null;
-      this.game.player.selectedTool = "fish";
+      this.game.player.selectedTool = "fishPlace";
       if (!silent) this.game.ui.showToast("Peixe adquirido", `${item.name} prontos para serem soltos em um rio.`);
     } else {
       this.game.player.seeds += 1;
