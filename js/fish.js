@@ -22,6 +22,14 @@ class FishSystem {
     return true;
   }
 
+  remove(tile) {
+    if (!tile || !tile.fish) return false;
+    const key = `${tile.x},${tile.y}`;
+    this.fishes = this.fishes.filter(item => `${item.x},${item.y}` !== key);
+    tile.fish = null;
+    return true;
+  }
+
   update(dt) {
     this.incomeTimer += dt;
     if (this.incomeTimer < 30) return;

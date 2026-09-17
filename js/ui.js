@@ -26,6 +26,7 @@ class UIManager {
     this.setupActions();
     this.setupSettings();
     this.setupMaps();
+    this.setupCustomWorld();
   }
 
   setupTools() {
@@ -35,6 +36,7 @@ class UIManager {
         button.classList.add("active");
         this.game.player.selectedTool = button.dataset.tool;
         this.updateHint();
+
       });
     });
   }
@@ -72,6 +74,18 @@ class UIManager {
     });
   }
 
+  setupCustomWorld() {
+    const overlay = document.getElementById("customWorldOverlay");
+    const close = document.getElementById("customWorldCloseButton");
+    close?.addEventListener("click", () => overlay?.classList.add("hidden"));
+    overlay?.addEventListener("click", event => {
+      if (event.target === overlay) overlay.classList.add("hidden");
+    });
+    overlay?.querySelectorAll("[data-custom-areas]").forEach(button => {
+      button.addEventListener("click", () => this.game.createCustomWorld(Number(button.dataset.customAreas)));
+    });
+  }
+
   setupMaps() {
     const openBtn = document.getElementById("mapsButton");
     const chip = document.getElementById("mapChip");
@@ -98,7 +112,8 @@ class UIManager {
     const selectedId = this.game.world.continentId;
     list.innerHTML = CONTINENT_DEFINITIONS.map(map => {
       const selected = map.id === selectedId;
-      const disabled = !map.unlocked;
+      const unlocked = this.game.world.isContinentUnlocked(map.id, this.game.player.mapProgress);
+      const disabled = !unlocked;
       return `
         <button class="map-card ${selected ? "selected" : ""} ${disabled ? "locked" : ""}"
           data-map-id="${map.id}" ${disabled ? "disabled" : ""}>
@@ -114,10 +129,28 @@ class UIManager {
         </button>`;
     }).join("");
 
+    const completed = Object.values(this.game.player.mapCompleted).filter(Boolean).length;
+    if (this.game.player.customWorldUnlocked) {
+      list.insertAdjacentHTML("beforeend", `
+        <button class="map-card custom-map-card ${selectedId === "custom" ? "selected" : ""}" data-map-id="custom">
+          <span class="map-preview custom" aria-hidden="true"><span class="map-preview-land"></span></span>
+          <span class="map-card-content">
+            <strong>Mundo personalizado</strong>
+            <small>${selectedId === "custom" ? "Mapa atual" : "Desbloqueado"}</small>
+            <em>${completed} áreas de plantio disponíveis.</em>
+          </span>
+        </button>`);
+    }
+
     list.querySelectorAll(".map-card:not(.locked)").forEach(button => {
       button.addEventListener("click", () => {
         const id = button.dataset.mapId;
-        if (!this.game.world.switchContinent(id)) return;
+        if (id === "custom") {
+          document.getElementById("mapsOverlay")?.classList.add("hidden");
+          this.game.openCustomWorld();
+          return;
+        }
+        if (!this.game.switchMap(id)) return;
         document.getElementById("mapsOverlay")?.classList.add("hidden");
         this.game.save.save();
         this.refresh();
@@ -128,7 +161,7 @@ class UIManager {
 
   refreshMapChip() {
     const chip = document.getElementById("mapChip");
-    if (chip) chip.textContent = `🗺️ ${this.game.world.continent.name}`;
+    if (chip) chip.textContent = this.game.world.continentId === "custom" ? `🗺️ Mundo personalizado` : `🗺️ ${this.game.world.continent.name}`;
   }
 
   setupSettings() {
@@ -180,12 +213,32 @@ class UIManager {
       inspect: "Clique em um tile para analisar o terreno.",
       remove: "Clique em uma árvore para removê-la.",
       river: "Clique em um tile seco para criar um rio · 50 moedas. Clique num rio para removê-lo.",
-      animal: "Compre um animal e clique em uma área seca dentro do planeta.",
-      fish: "Compre um peixe e clique dentro de um rio para soltá-lo."
+      animal: "Clique em um animal para removê-lo do mapa.",
+      fish: "Clique em um peixe para removê-lo do mapa.",
+      animalPlace: "Clique em uma área seca para soltar o animal comprado.",
+      fishPlace: "Clique dentro de um rio para soltar o peixe comprado."
     };
-    const icons = { plant: "🌱", grass: "🍃", inspect: "🔎", remove: "✋", river: "🌊", animal: "🐺", fish: "🐟" };
+    const icons = { plant: "🌱", grass: "🍃", inspect: "🔎", remove: "✋", river: "🌊", animal: "🐺", fish: "🐟", animalPlace: "🐺", fishPlace: "🐟" };
     const tool = this.game.player.selectedTool;
     document.getElementById("canvasHint").innerHTML = `<span>${icons[tool] || "🔎"}</span> ${hints[tool] || ""}`;
+  }
+
+  showAchievementCard(title, message) {
+    const overlay = document.getElementById("achievementOverlay");
+    const titleEl = document.getElementById("achievementTitle");
+    const messageEl = document.getElementById("achievementMessage");
+    if (!overlay || !titleEl || !messageEl) {
+      this.showToast("Conquista desbloqueada", title);
+      return;
+    }
+
+    titleEl.textContent = title;
+    messageEl.textContent = message;
+    overlay.classList.remove("hidden");
+    clearTimeout(this.achievementTimer);
+    this.achievementTimer = setTimeout(() => {
+      overlay.classList.add("hidden");
+    }, 5000);
   }
 
   showToast(title, message) {
@@ -246,14 +299,23 @@ class UIManager {
     document.getElementById("conditionOrb").textContent = level.level >= 3 ? "✦" : level.level === 2 ? "·" : "—";
 
     const missionData = this.game.missions.progress();
-    document.getElementById("missionTitle").textContent = missionData.mission.title;
-    document.getElementById("missionDescription").textContent = missionData.mission.description;
-    document.getElementById("missionCounter").textContent = `${Math.floor(missionData.value)} / ${missionData.mission.target}`;
-    document.getElementById("missionProgress").style.width = `${(missionData.value / missionData.mission.target) * 100}%`;
+    const missionTitle = document.getElementById("missionTitle");
+    const missionDescription = document.getElementById("missionDescription");
+    const missionCounter = document.getElementById("missionCounter");
+    const missionProgress = document.getElementById("missionProgress");
+    if (missionTitle) missionTitle.textContent = missionData.mission.title;
+    if (missionDescription) missionDescription.textContent = missionData.mission.description;
+    if (missionCounter) missionCounter.textContent = `${Math.floor(missionData.value)} / ${missionData.mission.target}`;
+    if (missionProgress) missionProgress.style.width = `${(missionData.value / missionData.mission.target) * 100}%`;
 
     this.refreshSeasonPanel();
 
     this.game.shop.render(this.shopList);
+    document.querySelectorAll(".tool").forEach(button => {
+      const tool = this.game.player.selectedTool;
+      const activeTool = (tool === "animalPlace" ? "animal" : tool === "fishPlace" ? "fish" : tool);
+      button.classList.toggle("active", button.dataset.tool === activeTool);
+    });
     this.renderSelection();
     this.updateHint();
   }
@@ -505,8 +567,31 @@ class UIManager {
     ctx.fillStyle = "rgba(225,242,235,.48)";
     ctx.font = `${Math.max(9, Math.floor(10 * dpr))}px system-ui, sans-serif`;
     ctx.textAlign = "center";
-    ctx.fillText("AMÉRICA DO NORTE", w * .50, h * .17);
-    ctx.fillText("AMÉRICA DO SUL", w * .50, h * .76);
+
+    const continentId = world.continentId;
+    const labels = {
+      americas: [
+        ["AMÉRICA DO NORTE", .50, .17],
+        ["AMÉRICA CENTRAL", .50, .39],
+        ["AMÉRICA DO SUL", .57, .76]
+      ],
+      continent2: [
+        ["EUROPA", .50, .23],
+        ["ÁFRICA", .50, .62]
+      ],
+      continent3: [
+        ["ÁSIA", .68, .25],
+        ["SUDESTE ASIÁTICO", .67, .49],
+        ["OCEANIA", .81, .70]
+      ],
+      custom: [
+        ["ÁREA DE PLANTIO", .50, .50]
+      ]
+    };
+
+    (labels[continentId] || labels.americas).forEach(([label, px, py]) => {
+      ctx.fillText(label, w * px, h * py);
+    });
 
     ctx.strokeStyle = "rgba(230,245,239,.35)";
     ctx.lineWidth = Math.max(1, dpr);
