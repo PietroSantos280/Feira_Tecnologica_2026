@@ -1,54 +1,52 @@
-document.addEventListener('DOMContentLoaded', () => {
-
-  const current =
-    (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-
-  document.querySelectorAll('.navbar .nav-link').forEach(link => {
-
-    const target =
-      (link.getAttribute('href') || '')
-        .split('/')
-        .pop()
-        .toLowerCase();
-
-    if (target === current) {
+document.addEventListener('DOMContentLoaded', function () {
+  const current = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  document.querySelectorAll('.navbar .nav-link').forEach(function (link) {
+    if ((link.getAttribute('href') || '').toLowerCase() === current) {
       link.classList.add('active');
+      link.setAttribute('aria-current', 'page');
     }
   });
 
-  const formulario =
-    document.getElementById('formularioContato');
+  document.querySelectorAll('img').forEach(function (image) {
+    image.addEventListener('error', function () {
+      image.classList.add('image-missing');
+    }, { once: true });
+  });
 
-  if (formulario) {
+  const navbar = document.querySelector('.navbar-collapse');
+  document.querySelectorAll('.navbar .nav-link').forEach(function (link) {
+    link.addEventListener('click', function () {
+      if (navbar && navbar.classList.contains('show') && window.bootstrap) {
+        window.bootstrap.Collapse.getOrCreateInstance(navbar).hide();
+      }
+    });
+  });
 
-    formulario.addEventListener('submit', event => {
-
-      event.preventDefault();
-
-      alert(
-        'Obrigado pelo seu contato! Sua mensagem foi enviada com sucesso.'
-      );
-
-      window.location.href = 'index.html';
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+    const sections = document.querySelectorAll('main > section, body > section:not(.banner-section):not(.dados-banner)');
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    sections.forEach(function (section) {
+      section.classList.add('reveal-ready');
+      observer.observe(section);
     });
   }
 
-  if (
-    !window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches
-  ) {
-
-    document
-      .querySelectorAll(
-        'section .card, section .preservacao-item, section .contact-card, section .info-card'
-      )
-      .forEach((el, i) => {
-
-        el.style.animationDelay =
-          `${Math.min(i * 45, 260)}ms`;
-
-      });
+  const formulario = document.getElementById('formularioContato');
+  if (formulario) {
+    formulario.addEventListener('submit', function (event) {
+      if (!formulario.checkValidity()) return;
+      const botao = formulario.querySelector('[type="submit"]');
+      if (botao) {
+        botao.textContent = 'Enviando...';
+        botao.setAttribute('aria-busy', 'true');
+      }
+    });
   }
-
 });
