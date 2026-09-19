@@ -284,46 +284,31 @@ body[data-page="inicio"] #participantes h2 { margin-bottom: 3rem; }
 }
 body[data-page="preservacao"] .preservacao-item { border-left: 2px solid var(--leaf) !important; }
 
-/* ---------- Ameaças ---------- */
-.card-desmatamento {
-  min-height: 420px; position: relative; isolation: isolate;
-  background-color: var(--forest-deep);
-  background-position: center !important; background-size: cover !important;
-  color: var(--paper);
+/* Container da imagem sem filtro verde ou escurecimento */
+.card-ameaca-img {
+  min-height: 200px;
+  background-position: center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
 }
-.card-desmatamento::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(95deg, rgba(11,35,25,.96), rgba(18,55,42,.7)); }
-.card-desmatamento h3, .card-desmatamento h4, .card-desmatamento h5, .card-desmatamento .text-muted, .card-desmatamento p { color: var(--paper) !important; }
+
+@media (min-width: 768px) {
+  .card-ameaca-img {
+    min-height: 100%;
+  }
+}
+
+/* Remove completamente o overlay que deixava verde */
+.card-ameaca-img::before {
+  display: none !important;
+}
+
+/* Suas regras gerais */
 .fa-solid { color: var(--leaf) !important; }
 section[style*="linear-gradient"] { background: var(--forest) !important; color: rgba(247,244,236,.85); }
 section[style*="linear-gradient"] h2, section[style*="linear-gradient"] h3, section[style*="linear-gradient"] h4, section[style*="linear-gradient"] h5 { color: var(--paper) !important; }
 section[style*="linear-gradient"] .fa-solid { color: #cfe1e8 !important; }
 body[data-page="ameacas"] .card { border-left: 2px solid var(--sky) !important; }
-
-/* ---------- Dados: painel de evidências ---------- */
-.dado-card { border-top: 2px solid var(--forest) !important; }
-.dado-card .card-body { text-align: left !important; }
-.dado-icone { min-height: 0; margin-bottom: .6rem; font-size: 1.2rem; opacity: .5; }
-.dado-card h3 {
-  margin-top: .3rem; color: var(--forest);
-  font-size: clamp(2.1rem, 3.6vw, 3rem); letter-spacing: -.02em;
-}
-.dado-card p { color: var(--muted); font-size: .95rem; }
-.tabela-dados { border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper-pure); overflow: hidden; }
-.table { margin: 0; --bs-table-bg: transparent; --bs-table-hover-bg: rgba(79,130,99,.07); }
-.table thead th {
-  padding: 1rem; background: var(--forest); color: var(--paper); border: 0;
-  font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; font-weight: 600; white-space: nowrap;
-}
-.table tbody td { padding: 1rem; border-color: var(--line); }
-.barra-item { margin-bottom: 1.3rem; }
-.barra-dados {
-  min-height: 42px; border-radius: 2px; background: var(--leaf) !important; color: var(--paper);
-  font-weight: 600; display: flex; align-items: center; padding-inline: 1rem;
-}
-.ano-dado { height: 100%; padding: 1.4rem 1rem; border: 1px solid var(--line); border-radius: 2px; background: var(--paper-pure); text-align: center; }
-.destaque-ano { border-color: var(--sky); background: rgba(77,130,153,.1); }
-.alert-info { border: 1px solid rgba(77,130,153,.3); border-left: 3px solid var(--sky); border-radius: 2px; background: rgba(77,130,153,.08); color: var(--ink); }
-
 /* ---------- Accordions ---------- */
 .accordion {
   --bs-accordion-border-color: var(--line);
