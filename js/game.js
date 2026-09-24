@@ -1,3 +1,7 @@
+function voltar(){
+  window.location.href = "index.html";
+}
+
 class AudioManager {
   playRain() {}
   playBird() {}
