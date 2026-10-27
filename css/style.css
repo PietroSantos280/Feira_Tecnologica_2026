@@ -417,3 +417,30 @@ body[data-season="winter"] #app { background: radial-gradient(circle at 50% -10%
 .tool { cursor: pointer; touch-action: manipulation; user-select: none; }
 .tool:active { transform: translateY(1px); }
 .shop-section { scroll-margin-top: 12px; }
+
+/* Painel de ferramentas: mantém todas as opções acessíveis em telas baixas.
+   A rolagem fica restrita à coluna esquerda quando seu conteúdo exceder a altura. */
+@media (min-width: 761px) {
+  .game-layout > .left-panel {
+    min-height: 0;
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #315d4b transparent;
+  }
+  .left-panel .tool-list,
+  .left-panel .side-section { min-width: 0; }
+}
+
+/* Zoom sem sobrepor o centro do mapa nem bloquear o plantio */
+.map-zoom-controls { position:absolute; top:12px; right:12px; z-index:3; display:flex; gap:5px; align-items:center; }
+.map-zoom-controls button { min-width:38px; min-height:38px; border:1px solid rgba(190,232,215,.28); border-radius:9px; background:rgba(8,26,29,.88); color:#e7fff4; font:700 16px inherit; cursor:pointer; touch-action:manipulation; }
+.map-zoom-controls #mapZoomReset { min-width:58px; font-size:12px; }
+.map-zoom-controls button:hover, .map-zoom-controls button:focus-visible { background:#23574b; }
+@media (max-width:600px) { .map-zoom-controls {top:8px;right:8px;} .map-zoom-controls button {min-width:44px;min-height:44px;} }
+
+.map-zoom-controls #mapPanToggle {min-width:58px;font-size:12px;}
+.map-zoom-controls #mapPanToggle.active {background:#26725c;border-color:#79dca9;}
+#gameCanvas {touch-action:none;}

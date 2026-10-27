@@ -207,20 +207,8 @@ class UIManager {
   }
 
   updateHint() {
-    const hints = {
-      plant: "Selecione Plantar e clique em um tile morto.",
-      grass: "Clique em uma área seca para cobrir com grama · 3 moedas.",
-      inspect: "Clique em um tile para analisar o terreno.",
-      remove: "Clique em uma árvore para removê-la.",
-      river: "Clique em um tile seco para criar um rio · 50 moedas. Clique num rio para removê-lo.",
-      animal: "Clique em um animal para removê-lo do mapa.",
-      fish: "Clique em um peixe para removê-lo do mapa.",
-      animalPlace: "Clique em uma área seca para soltar o animal comprado.",
-      fishPlace: "Clique dentro de um rio para soltar o peixe comprado."
-    };
-    const icons = { plant: "🌱", grass: "🍃", inspect: "🔎", remove: "✋", river: "🌊", animal: "🐺", fish: "🐟", animalPlace: "🐺", fishPlace: "🐟" };
-    const tool = this.game.player.selectedTool;
-    document.getElementById("canvasHint").innerHTML = `<span>${icons[tool] || "🔎"}</span> ${hints[tool] || ""}`;
+    // As ferramentas já mostram instruções no painel lateral.
+    // Não exibir mensagens sobrepostas ao terreno.
   }
 
   showAchievementCard(title, message) {
@@ -403,12 +391,12 @@ class UIManager {
     const canvas = this.canvas;
     const worldWidth = this.game.world.cols * WORLD_CONFIG.tileSize;
     const worldHeight = this.game.world.rows * WORLD_CONFIG.tileSize;
-    const scale = Math.min(canvas.width / worldWidth, canvas.height / worldHeight);
+    const scale = Math.min(canvas.width / worldWidth, canvas.height / worldHeight) * (this.game.mapZoom || 1);
     return {
       scaleX: scale,
       scaleY: scale,
-      offsetX: (canvas.width - worldWidth * scale) / 2,
-      offsetY: (canvas.height - worldHeight * scale) / 2
+      offsetX: (canvas.width - worldWidth * scale) / 2 + (this.game.mapPanX || 0),
+      offsetY: (canvas.height - worldHeight * scale) / 2 + (this.game.mapPanY || 0)
     };
   }
 

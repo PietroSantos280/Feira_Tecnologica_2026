@@ -1,7 +1,3 @@
-function voltar(){
-  window.location.href = "index.html";
-}
-
 class AudioManager {
   playRain() {}
   playBird() {}
@@ -34,8 +30,14 @@ class Game {
     this.loaded = false;
 
     this.paintSession = null;
+    this.mapZoom = 1;
+    this.mapPanX = 0;
+    this.mapPanY = 0;
+    this.mapPanMode = false;
+    this.mapPanSession = null;
 
     this.bindCanvas();
+    this.bindMapZoom();
     this.load();
     this.canvasShell = this.canvas.closest(".canvas-shell");
     this.resizeCanvas();
@@ -53,8 +55,44 @@ class Game {
     requestAnimationFrame(time => this.loop(time));
   }
 
+  bindMapZoom() {
+    const setZoom = value => {
+      this.mapZoom = Math.max(1, Math.min(2.5, Math.round(value * 100) / 100));
+      if (this.mapZoom === 1) { this.mapPanX = 0; this.mapPanY = 0; }
+      this.clampMapPan();
+      const reset = document.getElementById("mapZoomReset");
+      if (reset) reset.textContent = `${Math.round(this.mapZoom * 100)}%`;
+    };
+    document.getElementById("mapZoomIn")?.addEventListener("click", () => setZoom(this.mapZoom + .25));
+    document.getElementById("mapZoomOut")?.addEventListener("click", () => setZoom(this.mapZoom - .25));
+    document.getElementById("mapZoomReset")?.addEventListener("click", () => setZoom(1));
+    const panButton = document.getElementById("mapPanToggle");
+    panButton?.addEventListener("click", () => {
+      this.mapPanMode = !this.mapPanMode;
+      panButton.setAttribute("aria-pressed", String(this.mapPanMode));
+      panButton.classList.toggle("active", this.mapPanMode);
+      this.canvas.style.cursor = this.mapPanMode ? "grab" : "";
+    });
+  }
+
+  clampMapPan() {
+    const w = this.canvas.width, h = this.canvas.height;
+    const z = this.mapZoom || 1;
+    this.mapPanX = Math.max(-w * (z - 1) / 2, Math.min(w * (z - 1) / 2, this.mapPanX));
+    this.mapPanY = Math.max(-h * (z - 1) / 2, Math.min(h * (z - 1) / 2, this.mapPanY));
+  }
+
   bindCanvas() {
     this.canvas.addEventListener("pointermove", event => {
+      if (this.mapPanSession) {
+        const rect = this.canvas.getBoundingClientRect();
+        this.mapPanX += (event.clientX - this.mapPanSession.x) * this.canvas.width / rect.width;
+        this.mapPanY += (event.clientY - this.mapPanSession.y) * this.canvas.height / rect.height;
+        this.mapPanSession.x = event.clientX;
+        this.mapPanSession.y = event.clientY;
+        this.clampMapPan();
+        return;
+      }
       const tile = this.getTileFromPointer(event);
       for (const row of this.world.tiles) for (const t of row) t.hover = false;
       if (tile) tile.hover = true;
@@ -78,12 +116,27 @@ class Game {
     });
 
     this.canvas.addEventListener("pointerdown", event => {
-      if (event.button !== undefined && event.button !== 0) return;
+      if (event.button !== undefined && event.button !== 0 && event.button !== 1) return;
+      if (this.mapPanMode || event.shiftKey || event.button === 1) {
+        if (this.mapZoom <= 1) return;
+        event.preventDefault();
+        this.mapPanSession = { x: event.clientX, y: event.clientY };
+        this.canvas.style.cursor = "grabbing";
+        try { this.canvas.setPointerCapture?.(event.pointerId); } catch (_) {}
+        return;
+      }
       event.preventDefault();
       try { this.canvas.setPointerCapture?.(event.pointerId); } catch (_) {}
       this.startCanvasAction(event);
     });
 
+    const stopPan = () => {
+      this.mapPanSession = null;
+      this.canvas.style.cursor = this.mapPanMode ? "grab" : "";
+    };
+    window.addEventListener("pointerup", stopPan);
+    window.addEventListener("pointercancel", stopPan);
+    window.addEventListener("blur", stopPan);
     window.addEventListener("pointerup", () => this.endCanvasAction());
     window.addEventListener("pointercancel", () => this.endCanvasAction());
     window.addEventListener("blur", () => this.endCanvasAction());
