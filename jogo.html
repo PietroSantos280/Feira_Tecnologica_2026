@@ -88,8 +88,11 @@
 
         <div class="canvas-shell">
           <canvas id="worldCanvas" width="1152" height="648" aria-label="Mapa do planeta"></canvas>
-          <div class="canvas-hint" id="canvasHint">
-            <span>🌱</span> Selecione <b>Plantar</b> e clique em um tile morto.
+          <div class="map-zoom-controls" aria-label="Controles de zoom do mapa">
+            <button type="button" id="mapZoomIn" aria-label="Aumentar zoom" title="Aumentar zoom">+</button>
+            <button type="button" id="mapZoomReset" aria-label="Restaurar zoom" title="Restaurar zoom">100%</button>
+            <button type="button" id="mapPanToggle" aria-pressed="false" title="Mover mapa arrastando">Mover</button>
+            <button type="button" id="mapZoomOut" aria-label="Diminuir zoom" title="Diminuir zoom">−</button>
           </div>
           <div class="toast-stack" id="toastStack"></div>
         </div>
